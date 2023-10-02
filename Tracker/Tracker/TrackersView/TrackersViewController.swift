@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TrackersViewController: UIViewController {
 
     private lazy var nameUserLabel : UILabel = {
         let nameUserLabel = UILabel()
