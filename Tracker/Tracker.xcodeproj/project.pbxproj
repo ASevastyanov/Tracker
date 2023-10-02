@@ -12,6 +12,7 @@
 		96C858FB2AC985F0000CBA0E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858FA2AC985F0000CBA0E /* ViewController.swift */; };
 		96C859002AC985F1000CBA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96C858FF2AC985F1000CBA0E /* Assets.xcassets */; };
 		96C859032AC985F1000CBA0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96C859012AC985F1000CBA0E /* LaunchScreen.storyboard */; };
+		96C8590E2AC9C794000CBA0E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C8590D2AC9C794000CBA0E /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		96C858FF2AC985F1000CBA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96C859022AC985F1000CBA0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		96C859042AC985F1000CBA0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96C8590D2AC9C794000CBA0E /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +56,10 @@
 		96C858F52AC985F0000CBA0E /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				96C8590B2AC99702000CBA0E /* Services */,
+				96C8590C2AC9C758000CBA0E /* Helpers */,
 				96C8590A2AC995E4000CBA0E /* Resources */,
-				96C858FA2AC985F0000CBA0E /* ViewController.swift */,
+				96C8590B2AC99702000CBA0E /* Services */,
+				96C8590F2AC9D9D3000CBA0E /* TrackerView */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -78,6 +81,22 @@
 				96C858F82AC985F0000CBA0E /* SceneDelegate.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		96C8590C2AC9C758000CBA0E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				96C8590D2AC9C794000CBA0E /* UIColor.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		96C8590F2AC9D9D3000CBA0E /* TrackerView */ = {
+			isa = PBXGroup;
+			children = (
+				96C858FA2AC985F0000CBA0E /* ViewController.swift */,
+			);
+			path = TrackerView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96C858FB2AC985F0000CBA0E /* ViewController.swift in Sources */,
+				96C8590E2AC9C794000CBA0E /* UIColor.swift in Sources */,
 				96C858F72AC985F0000CBA0E /* AppDelegate.swift in Sources */,
 				96C858F92AC985F0000CBA0E /* SceneDelegate.swift in Sources */,
 			);

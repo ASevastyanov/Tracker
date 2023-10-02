@@ -11,7 +11,7 @@ class ViewController: UIViewController {
 
     private lazy var nameUserLabel : UILabel = {
         let nameUserLabel = UILabel()
-        nameUserLabel.text = " test "
+        nameUserLabel.text = " Tracker "
         nameUserLabel.textColor = .black
         nameUserLabel.font = .boldSystemFont(ofSize: 23)
         nameUserLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.addSubview(nameUserLabel)
-        view.backgroundColor = .white
+        view.backgroundColor = .whiteDay
         NSLayoutConstraint.activate([
             nameUserLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nameUserLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
