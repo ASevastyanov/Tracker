@@ -9,6 +9,8 @@ import UIKit
 
 //MARK: - TrackersViewController
 class TrackersViewController: UIViewController {
+    private var searchText = [String]()
+    private var recordsStorege = [String]()
     
     //MARK: - UiElements
     private lazy var addTrackerButton: UIButton = {
@@ -47,6 +49,7 @@ class TrackersViewController: UIViewController {
         trackersSearchBar.searchBarStyle = .minimal
         trackersSearchBar.translatesAutoresizingMaskIntoConstraints = false
         trackersSearchBar.placeholder = "Поиск"
+        trackersSearchBar.delegate = self
         return trackersSearchBar
     }()
     
@@ -84,6 +87,7 @@ class TrackersViewController: UIViewController {
     
     //MARK: - Private methods
     private func configViews() {
+        searchBar.setValue("Отменить", forKey: "cancelButtonText")
         view.backgroundColor = .whiteDay
         view.addSubview(addTrackerButton)
         view.addSubview(datePicker)
@@ -116,4 +120,40 @@ class TrackersViewController: UIViewController {
             searchMainPlaceholderStub.topAnchor.constraint(equalTo: mainStarImageStub.bottomAnchor, constant: 8)
         ])
     }
+}
+
+//MARK: - UISearchBarDelegate
+extension TrackersViewController: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(true, animated: true)
+        return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchText.removeAll()
+        guard searchText != "" || searchText != " " else { return }
+        
+        for item in recordsStorege {
+            let text = searchText.lowercased()
+            let isArrayContain = item.lowercased().range(of: text)
+            
+            if isArrayContain != nil {
+                self.searchText.append(item)
+                print(searchText)
+            }
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.endEditing(true)
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.endEditing(true)
+            searchBar.setShowsCancelButton(false, animated: true)
+            searchBar.resignFirstResponder()
+        }
 }
