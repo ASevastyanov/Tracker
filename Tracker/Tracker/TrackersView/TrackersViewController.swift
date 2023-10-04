@@ -64,7 +64,7 @@ class TrackersViewController: UIViewController {
     private lazy var searchMainPlaceholderStub: UILabel = {
         let searchSpacePlaceholderStack = UILabel()
         searchSpacePlaceholderStack.text = "Что будем отслеживать?"
-        searchSpacePlaceholderStack.font = .boldSystemFont(ofSize: 12)
+        searchSpacePlaceholderStack.font = .systemFont(ofSize: 12, weight: .medium)
         searchSpacePlaceholderStack.translatesAutoresizingMaskIntoConstraints = false
         return searchSpacePlaceholderStack
     }()
@@ -79,6 +79,10 @@ class TrackersViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func addNewTracker() {
+        let createTrackerViewController = CreatingNewTrackerViewController()
+        let navigationController = UINavigationController(rootViewController: createTrackerViewController)
+        present(navigationController, animated: true)
+
     }
     
     @objc
