@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		9642A4852ACB330A003D8172 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4842ACB330A003D8172 /* Date.swift */; };
 		9642A4882ACC768E003D8172 /* CreatingNewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */; };
+		9642A48A2ACD98F0003D8172 /* CreatingHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4892ACD98F0003D8172 /* CreatingHabitViewController.swift */; };
+		9642A48C2ACD9930003D8172 /* CreatingIrregularEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A48B2ACD9930003D8172 /* CreatingIrregularEventViewController.swift */; };
+		9642A48E2ACEF966003D8172 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A48D2ACEF966003D8172 /* TextField.swift */; };
+		9642A4902ACFF63E003D8172 /* CreatingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A48F2ACFF63E003D8172 /* CreatingTableCell.swift */; };
+		9642A4922AD3222F003D8172 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4912AD3222F003D8172 /* CategoryViewController.swift */; };
+		9642A4942AD322BF003D8172 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4932AD322BF003D8172 /* ScheduleViewController.swift */; };
+		9642A4982AD3FBA0003D8172 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4972AD3FBA0003D8172 /* ScheduleCell.swift */; };
+		9642A49A2AD40482003D8172 /* CreatingCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4992AD40482003D8172 /* CreatingCategoryViewController.swift */; };
+		9642A49C2AD43F8C003D8172 /* DataStorege.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A49B2AD43F8C003D8172 /* DataStorege.swift */; };
 		96C858F72AC985F0000CBA0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858F62AC985F0000CBA0E /* AppDelegate.swift */; };
 		96C858F92AC985F0000CBA0E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858F82AC985F0000CBA0E /* SceneDelegate.swift */; };
 		96C858FB2AC985F0000CBA0E /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858FA2AC985F0000CBA0E /* TrackersViewController.swift */; };
@@ -21,6 +30,15 @@
 /* Begin PBXFileReference section */
 		9642A4842ACB330A003D8172 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingNewTrackerViewController.swift; sourceTree = "<group>"; };
+		9642A4892ACD98F0003D8172 /* CreatingHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingHabitViewController.swift; sourceTree = "<group>"; };
+		9642A48B2ACD9930003D8172 /* CreatingIrregularEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingIrregularEventViewController.swift; sourceTree = "<group>"; };
+		9642A48D2ACEF966003D8172 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		9642A48F2ACFF63E003D8172 /* CreatingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingTableCell.swift; sourceTree = "<group>"; };
+		9642A4912AD3222F003D8172 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		9642A4932AD322BF003D8172 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		9642A4972AD3FBA0003D8172 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
+		9642A4992AD40482003D8172 /* CreatingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingCategoryViewController.swift; sourceTree = "<group>"; };
+		9642A49B2AD43F8C003D8172 /* DataStorege.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorege.swift; sourceTree = "<group>"; };
 		96C858F32AC985F0000CBA0E /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96C858F62AC985F0000CBA0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		96C858F82AC985F0000CBA0E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,8 +65,39 @@
 			isa = PBXGroup;
 			children = (
 				9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */,
+				9642A49D2AD91F72003D8172 /* CreatingHabit&Irregular */,
+				9642A4952AD3F2DA003D8172 /* Category */,
+				9642A4962AD3F396003D8172 /* Schedule */,
 			);
 			path = CreatingNewTracker;
+			sourceTree = "<group>";
+		};
+		9642A4952AD3F2DA003D8172 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				9642A4912AD3222F003D8172 /* CategoryViewController.swift */,
+				9642A4992AD40482003D8172 /* CreatingCategoryViewController.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		9642A4962AD3F396003D8172 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				9642A4932AD322BF003D8172 /* ScheduleViewController.swift */,
+				9642A4972AD3FBA0003D8172 /* ScheduleCell.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		9642A49D2AD91F72003D8172 /* CreatingHabit&Irregular */ = {
+			isa = PBXGroup;
+			children = (
+				9642A4892ACD98F0003D8172 /* CreatingHabitViewController.swift */,
+				9642A48B2ACD9930003D8172 /* CreatingIrregularEventViewController.swift */,
+				9642A48F2ACFF63E003D8172 /* CreatingTableCell.swift */,
+			);
+			path = "CreatingHabit&Irregular";
 			sourceTree = "<group>";
 		};
 		96C858EA2AC985F0000CBA0E = {
@@ -93,6 +142,7 @@
 		96C8590B2AC99702000CBA0E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9642A49B2AD43F8C003D8172 /* DataStorege.swift */,
 				96C858F62AC985F0000CBA0E /* AppDelegate.swift */,
 				96C858F82AC985F0000CBA0E /* SceneDelegate.swift */,
 			);
@@ -104,6 +154,7 @@
 			children = (
 				96C8590D2AC9C794000CBA0E /* UIColor.swift */,
 				9642A4842ACB330A003D8172 /* Date.swift */,
+				9642A48D2ACEF966003D8172 /* TextField.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -194,9 +245,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9642A4942AD322BF003D8172 /* ScheduleViewController.swift in Sources */,
+				9642A4902ACFF63E003D8172 /* CreatingTableCell.swift in Sources */,
 				96C858FB2AC985F0000CBA0E /* TrackersViewController.swift in Sources */,
+				9642A4982AD3FBA0003D8172 /* ScheduleCell.swift in Sources */,
 				9642A4852ACB330A003D8172 /* Date.swift in Sources */,
 				96C8590E2AC9C794000CBA0E /* UIColor.swift in Sources */,
+				9642A4922AD3222F003D8172 /* CategoryViewController.swift in Sources */,
+				9642A48E2ACEF966003D8172 /* TextField.swift in Sources */,
+				9642A48C2ACD9930003D8172 /* CreatingIrregularEventViewController.swift in Sources */,
+				9642A48A2ACD98F0003D8172 /* CreatingHabitViewController.swift in Sources */,
+				9642A49C2AD43F8C003D8172 /* DataStorege.swift in Sources */,
+				9642A49A2AD40482003D8172 /* CreatingCategoryViewController.swift in Sources */,
 				96C858F72AC985F0000CBA0E /* AppDelegate.swift in Sources */,
 				96C859122ACA8990000CBA0E /* TabBarController.swift in Sources */,
 				9642A4882ACC768E003D8172 /* CreatingNewTrackerViewController.swift in Sources */,

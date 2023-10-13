@@ -13,6 +13,8 @@ class TrackersViewController: UIViewController {
     private var recordsStorege = [String]()
     
     //MARK: - UiElements
+    private let navigationBar = UINavigationBar()
+    
     private lazy var addTrackerButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(named: "plusDayIcon")!,
@@ -74,27 +76,40 @@ class TrackersViewController: UIViewController {
         super.viewDidLoad()
         configViews()
         configConstraints()
+        configNavigationBar()
     }
     
     // MARK: - Actions
     @objc
     private func addNewTracker() {
-        let createTrackerViewController = CreatingNewTrackerViewController()
-        let navigationController = UINavigationController(rootViewController: createTrackerViewController)
+        let сreatingNewTrackerViewController = CreatingNewTrackerViewController()
+        let navigationController = UINavigationController(rootViewController: сreatingNewTrackerViewController)
         present(navigationController, animated: true)
-
     }
     
     @objc
     private func filterByDate() {
+        //TODO: - Создать метод фильтрации по дате
     }
     
     //MARK: - Private methods
+    private func configNavigationBar() {
+        let addTrackerBarButtonItem = UIBarButtonItem(customView: addTrackerButton)
+        let datePickerBarButtonItem = UIBarButtonItem(customView: datePicker)
+        let datePickerConstraint = NSLayoutConstraint(item: datePicker, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0)
+        navigationItem.leftBarButtonItem = addTrackerBarButtonItem
+        navigationItem.rightBarButtonItems = [datePickerBarButtonItem]
+        navigationBar.barTintColor = UIColor.whiteDay
+        navigationBar.shadowImage = UIImage()
+        navigationBar.setItems([navigationItem], animated: false)
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([datePickerConstraint])
+    }
+    
     private func configViews() {
         searchBar.setValue("Отменить", forKey: "cancelButtonText")
         view.backgroundColor = .whiteDay
-        view.addSubview(addTrackerButton)
-        view.addSubview(datePicker)
+        view.addSubview(navigationBar)
         view.addSubview(trackerLabel)
         view.addSubview(searchBar)
         view.addSubview(mainStarImageStub)
@@ -103,18 +118,14 @@ class TrackersViewController: UIViewController {
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            addTrackerButton.widthAnchor.constraint(equalToConstant: 42),
-            addTrackerButton.heightAnchor.constraint(equalToConstant: 42),
-            addTrackerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1),
-            addTrackerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
-            datePicker.widthAnchor.constraint(equalToConstant: 100),
-            datePicker.centerYAnchor.constraint(equalTo: addTrackerButton.centerYAnchor),
-            datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            trackerLabel.topAnchor.constraint(equalTo: addTrackerButton.bottomAnchor, constant: 1),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            trackerLabel.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 1),
             trackerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            searchBar.topAnchor.constraint(equalTo: addTrackerButton.bottomAnchor, constant: 49),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            searchBar.topAnchor.constraint(equalTo: trackerLabel.bottomAnchor, constant: 7),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             searchBar.heightAnchor.constraint(equalToConstant: 36),
             mainStarImageStub.widthAnchor.constraint(equalToConstant: 80),
             mainStarImageStub.heightAnchor.constraint(equalToConstant: 80),
@@ -136,11 +147,9 @@ extension TrackersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchText.removeAll()
         guard searchText != "" || searchText != " " else { return }
-        
         for item in recordsStorege {
             let text = searchText.lowercased()
             let isArrayContain = item.lowercased().range(of: text)
-            
             if isArrayContain != nil {
                 self.searchText.append(item)
                 print(searchText)
@@ -156,8 +165,8 @@ extension TrackersViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.endEditing(true)
-            searchBar.setShowsCancelButton(false, animated: true)
-            searchBar.resignFirstResponder()
-        }
+        searchBar.endEditing(true)
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+    }
 }

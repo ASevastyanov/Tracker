@@ -21,16 +21,14 @@ final class CreatingNewTrackerViewController: UIViewController {
     
     private lazy var creatingHabitButton: UIButton = {
         let title = "Привычка"
-        let button = addActionsForButton(title: title)
-        button.addTarget(self, action: #selector(self.creatingHabit), for: .touchUpInside)
+        let button = addActionsForButton(title: title, action: #selector(creatingHabit))
         button.accessibilityIdentifier = "creatingHabitButton"
         return button
     }()
     
-    private lazy var createIrregularEventButton: UIButton = {
+    private lazy var creatingIrregularEventButton: UIButton = {
         let title = "Нерегулярные событие"
-        let button = addActionsForButton(title: title)
-        button.addTarget(self, action: #selector(self.createIrregularEvent), for: .touchUpInside)
+        let button = addActionsForButton(title: title, action: #selector(creatingIrregularEvent))
         button.accessibilityIdentifier = "createIrregularEventButton"
         return button
     }()
@@ -45,10 +43,16 @@ final class CreatingNewTrackerViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func creatingHabit() {
+        let createHabitViewController = CreatingHabitViewController()
+        let navigationController = UINavigationController(rootViewController: createHabitViewController)
+        present(navigationController, animated: true)
     }
     
     @objc
-    private func createIrregularEvent() {
+    private func creatingIrregularEvent() {
+        let createIrregularEventViewController = CreatingIrregularEventViewController()
+        let navigationController = UINavigationController(rootViewController: createIrregularEventViewController)
+        present(navigationController, animated: true)
     }
     
     //MARK: - Private methods
@@ -56,7 +60,7 @@ final class CreatingNewTrackerViewController: UIViewController {
         view.backgroundColor = .whiteDay
         view.addSubview(creatingTrackerLabel)
         view.addSubview(creatingHabitButton)
-        view.addSubview(createIrregularEventButton)
+        view.addSubview(creatingIrregularEventButton)
     }
     
     private func configConstraints() {
@@ -67,14 +71,14 @@ final class CreatingNewTrackerViewController: UIViewController {
             creatingHabitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             creatingHabitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             creatingHabitButton.topAnchor.constraint(equalTo: creatingTrackerLabel.bottomAnchor, constant: 281),
-            createIrregularEventButton.topAnchor.constraint(equalTo: creatingHabitButton.bottomAnchor, constant: 16),
-            createIrregularEventButton.heightAnchor.constraint(equalToConstant: 60),
-            createIrregularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            createIrregularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            creatingIrregularEventButton.topAnchor.constraint(equalTo: creatingHabitButton.bottomAnchor, constant: 16),
+            creatingIrregularEventButton.heightAnchor.constraint(equalToConstant: 60),
+            creatingIrregularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            creatingIrregularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
-    private func addActionsForButton(title: String) -> UIButton {
+    private func addActionsForButton(title: String, action: Selector) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(.whiteDay, for: .normal)
@@ -83,6 +87,7 @@ final class CreatingNewTrackerViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: action, for: .touchUpInside)
         return button
     }
 }
