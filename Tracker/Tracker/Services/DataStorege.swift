@@ -13,7 +13,7 @@ final class DataStorege {
     private let categoryKey = "CategoryKey"
     private let indexPathForCheckmark = "IndexPathForCheckmark"
     private let daysInAWeek = "DaysInAWeek"
-    
+    private let trackerKey = "TrackerKey"
 }
 
 // MARK: - CategoryViewController

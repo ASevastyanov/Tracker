@@ -9,7 +9,9 @@ import UIKit
 
 // MARK: - CreatingNewTrackerViewController
 final class CreatingNewTrackerViewController: UIViewController {
+    weak var delegate: TrackerCreationDelegate?
     
+    //MARK: - UiElements
     private lazy var creatingTrackerLabel: UILabel = {
         let trackerLabel = UILabel()
         trackerLabel.text = "Создание трекера"
@@ -44,6 +46,7 @@ final class CreatingNewTrackerViewController: UIViewController {
     @objc
     private func creatingHabit() {
         let createHabitViewController = CreatingHabitViewController()
+        createHabitViewController.delegate = self.delegate
         let navigationController = UINavigationController(rootViewController: createHabitViewController)
         present(navigationController, animated: true)
     }
@@ -51,6 +54,7 @@ final class CreatingNewTrackerViewController: UIViewController {
     @objc
     private func creatingIrregularEvent() {
         let createIrregularEventViewController = CreatingIrregularEventViewController()
+        createIrregularEventViewController.delegate = self.delegate
         let navigationController = UINavigationController(rootViewController: createIrregularEventViewController)
         present(navigationController, animated: true)
     }

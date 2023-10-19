@@ -83,7 +83,6 @@ final class CategoryViewController: UIViewController {
     private func checkForAvailableCategories() {
         category = dataSorege.loadCategories()
         tableView.reloadData()
-        
         if !category.isEmpty {
             configTableView()
             configThereAreCategories()

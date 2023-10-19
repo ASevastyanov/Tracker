@@ -83,6 +83,7 @@ final class CreatingCategoryViewController: UIViewController {
     }
     
     private func configViews() {
+        _ = self.skipKeyboard
         view.backgroundColor = .whiteDay
         view.addSubview(habitLabel)
         view.addSubview(nameTrackerTextField)

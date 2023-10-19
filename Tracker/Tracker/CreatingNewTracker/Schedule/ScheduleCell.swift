@@ -15,7 +15,7 @@ final class ScheduleCell: UITableViewCell {
     weak var delegate: ScheduleCellDelegate?
     
     //MARK: - UiElements
-    private let scheduleLabel: UILabel = {
+    private lazy var scheduleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .blackDay
         label.textAlignment = .left
@@ -32,11 +32,29 @@ final class ScheduleCell: UITableViewCell {
         return switchDay
     }()
     
+    private lazy var uiView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundDay
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 16
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scheduleLabel)
+        view.addSubview(switchDay)
+        NSLayoutConstraint.activate([
+            scheduleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            scheduleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            switchDay.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            switchDay.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            switchDay.heightAnchor.constraint(equalToConstant: 31),
+            switchDay.widthAnchor.constraint(equalToConstant: 51),
+        ])
+        return view
+    }()
+    
     // MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        self.backgroundColor = .backgroundDay
         configViews()
         configConstraints()
     }
@@ -56,25 +74,36 @@ final class ScheduleCell: UITableViewCell {
     }
     
     // MARK: - Methods
-    func configureCell(with text: String, isSwitchOn: Bool) {
+    func configureCell(with text: String, isSwitchOn: Bool, cellIndex: Int, numberOfLines: Int) {
         scheduleLabel.text = text
         switchDay.setOn(isSwitchOn, animated: true)
+        roundingForCellsInATable(cellIndex: cellIndex, numberOfLines: numberOfLines)
     }
     
     // MARK: - Private methods
+    private func roundingForCellsInATable(cellIndex: Int, numberOfLines: Int) {
+        switch (cellIndex, numberOfLines) {
+        case (0, 1):
+            uiView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        case (0, _):
+            uiView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        case (_, _) where cellIndex == numberOfLines - 1:
+            uiView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        default:
+            uiView.layer.maskedCorners = []
+        }
+    }
+    
     private func configViews() {
-        contentView.addSubview(scheduleLabel)
-        contentView.addSubview(switchDay)
+        contentView.addSubview(uiView)
     }
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            scheduleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
-            scheduleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            switchDay.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            switchDay.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
-            switchDay.heightAnchor.constraint(equalToConstant: 31),
-            switchDay.widthAnchor.constraint(equalToConstant: 51),
+            uiView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            uiView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            uiView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            uiView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

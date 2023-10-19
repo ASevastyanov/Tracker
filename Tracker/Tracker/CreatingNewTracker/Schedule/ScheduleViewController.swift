@@ -59,12 +59,26 @@ final class ScheduleViewController: UIViewController {
     // MARK: - Actions
     @objc
     func actionsForButton() {
-        let daysInAWeek = dataSorege.loadDaysInAWeek()
+        guard let daysInAWeek = sortedDayInWeek(weekDayArray: dataSorege.loadDaysInAWeek()) else { return }
         delegate?.updateDate(days: daysInAWeek)
         dismiss(animated: true)
     }
     
     // MARK: - Private methods
+    private func sortedDayInWeek(weekDayArray: [String]) -> [String]?{
+        let abbreviationDays: [String] = weekDayArray.compactMap { day in
+            let dateFormatter = DateFormatter()
+            print(dateFormatter)
+            dateFormatter.locale = Locale(identifier: "ru_RU")
+            dateFormatter.dateFormat = "E"
+            if let date = dateFormatter.date(from: day) {
+                return dateFormatter.string(from: date)
+            }
+            return nil
+        }
+        return abbreviationDays
+    }
+    
     private func configTableView() {
         tableView.register(ScheduleCell.self, forCellReuseIdentifier: "ScheduleCell")
         tableView.delegate = self
@@ -138,7 +152,8 @@ extension ScheduleViewController: UITableViewDataSource {
         cell.delegate = self
         let day: String = DaysOfTheWeek.allCases[indexPath.row].rawValue
         let isSwitchOn = dataSorege.loadDaysInAWeek().contains(day)
-        cell.configureCell(with: day, isSwitchOn: isSwitchOn)
+        //cell.configureCell(with: day, isSwitchOn: isSwitchOn)
+        cell.configureCell(with: day, isSwitchOn: isSwitchOn, cellIndex: indexPath.row, numberOfLines: DaysOfTheWeek.allCases.count)
         return cell
     }
 }

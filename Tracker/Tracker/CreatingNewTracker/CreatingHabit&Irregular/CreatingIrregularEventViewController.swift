@@ -16,6 +16,8 @@ final class CreatingIrregularEventViewController: UIViewController {
     private let dataSorege = DataStorege.shared
     private var countButtonForTableView = [("Категория", "")]
     private let characterLimitInField = 38
+    private let color: UIColor = .colorSelection.randomElement()!
+    weak var delegate: TrackerCreationDelegate?
     
     //MARK: - UiElements
     private var tableView: UITableView = .init()
@@ -112,7 +114,12 @@ final class CreatingIrregularEventViewController: UIViewController {
     
     @objc
     private func create() {
-        //TODO: - Метод по созданию трекера "Новая привычка"
+        guard let text = nameTrackerTextField.text else { return }
+        let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: "🤔", dateEvents: nil)
+        let categoryTracker = TrackerCategory(title: countButtonForTableView[0].1, trackers: [newTracker])
+        delegate?.didCreateTracker(newTracker, category: categoryTracker)
+        self.view.window?.rootViewController?.dismiss(animated: true) {
+        }
     }
     
     //MARK: - Private methods
@@ -140,6 +147,7 @@ final class CreatingIrregularEventViewController: UIViewController {
     }
     
     private func configViews() {
+        _ = self.skipKeyboard
         view.backgroundColor = .whiteDay
         view.addSubview(newHabitLabel)
         view.addSubview(nameTrackerTextField)
@@ -175,7 +183,7 @@ final class CreatingIrregularEventViewController: UIViewController {
     }
 }
 
-
+// MARK: - CreatingIrregularEventViewControllerDelegate
 extension CreatingIrregularEventViewController: CreatingIrregularEventViewControllerDelegate {
     func updateSubitle(nameSubitle: String) {
         countButtonForTableView[0].1 = nameSubitle
@@ -183,6 +191,7 @@ extension CreatingIrregularEventViewController: CreatingIrregularEventViewContro
         updateCreatingButton()
     }
 }
+
 // MARK: - UITextFieldDelegate
 extension CreatingIrregularEventViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

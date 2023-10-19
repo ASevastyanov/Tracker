@@ -26,9 +26,8 @@ final class TabBarController: UITabBarController {
                 title: "Трекеры",
                 image: UIImage(named: "recordIcon")
             ),
-            //TODO: Изменить на эткран статистики (Пока установлен экран трекера)
             generateVC(
-                viewController: TrackersViewController(),
+                viewController: StatisticsViewController(),
                 title: "Статистика",
                 image: UIImage(named: "statisticsIcon")
             )

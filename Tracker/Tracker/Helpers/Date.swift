@@ -17,4 +17,14 @@ private var dateFormatter: DateFormatter = {
 
 extension Date {
     var dateTimeString: String { dateFormatter.string(from: self) }
+    
+    func dayOfWeek() -> Int {
+        let calendar = Calendar.current
+        let weekDay = calendar.component(.weekday, from: self)
+        if weekDay == 1 {
+            return 7
+        } else {
+            return weekDay - 1
+        }
+    }
 }

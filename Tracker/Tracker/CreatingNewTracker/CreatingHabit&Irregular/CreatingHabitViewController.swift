@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TrackerCreationDelegate: AnyObject {
+    func didCreateTracker(_ tracker: Tracker, category: TrackerCategory)
+}
+
 protocol CreatingHabitViewControllerDelegate: AnyObject {
     func updateSubitle(nameSubitle: String)
     func updateDate(days: [String])
@@ -17,6 +21,9 @@ final class CreatingHabitViewController: UIViewController {
     private let dataSorege = DataStorege.shared
     private let characterLimitInField = 38
     private var countButtonForTableView = [("Категория", ""), ("Расписание", "")]
+    private let color: UIColor = .colorSelection.randomElement()!
+    private var dateEvents = [Int]()
+    weak var delegate: TrackerCreationDelegate?
     
     //MARK: - UiElements
     private var tableView: UITableView = .init()
@@ -112,7 +119,12 @@ final class CreatingHabitViewController: UIViewController {
     
     @objc
     private func create() {
-        //TODO: - Метод по созданию трекера "Новая привычка"
+        guard let text = nameTrackerTextField.text else { return }
+        let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: "🤔", dateEvents: dateEvents)
+        let categoryTracker = TrackerCategory(title: countButtonForTableView[0].1, trackers: [newTracker])
+        delegate?.didCreateTracker(newTracker, category: categoryTracker)
+        self.view.window?.rootViewController?.dismiss(animated: true) {
+        }
     }
     
     //MARK: - Private methods
@@ -146,6 +158,7 @@ final class CreatingHabitViewController: UIViewController {
     }
     
     private func configViews() {
+        _ = self.skipKeyboard
         view.backgroundColor = .whiteDay
         view.addSubview(newHabitLabel)
         view.addSubview(nameTrackerTextField)
@@ -184,22 +197,13 @@ final class CreatingHabitViewController: UIViewController {
 // MARK: - CreatingHabitViewControllerDelegate
 extension CreatingHabitViewController: CreatingHabitViewControllerDelegate {
     func updateDate(days: [String]) {
-        let day: [String] = days
-        if !day.isEmpty {
-            if day.count == 7 {
+        if !days.isEmpty {
+            if days.count == 7 {
                 countButtonForTableView[1].1 = "Каждый день"
+                convertToDayInDateFormatter(days)
             } else {
-                let abbreviationDays: [String] = days.compactMap { day in
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.locale = Locale(identifier: "ru_RU")
-                    dateFormatter.dateFormat = "E"
-                    if let date = dateFormatter.date(from: day) {
-                        return dateFormatter.string(from: date)
-                    }
-                    return nil
-                }
-                let concatenatedString = abbreviationDays.joined(separator: ", ")
-                countButtonForTableView[1].1 = concatenatedString
+                countButtonForTableView[1].1 = days.joined(separator: ", ")
+                convertToDayInDateFormatter(days)
             }
         }
         tableView.reloadData()
@@ -210,6 +214,12 @@ extension CreatingHabitViewController: CreatingHabitViewControllerDelegate {
         countButtonForTableView[0].1 = nameSubitle
         tableView.reloadData()
         updateCreatingButton()
+    }
+    
+    private func convertToDayInDateFormatter(_ days: [String]){
+        let orderedDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+        let resultArray = days.compactMap { orderedDays.firstIndex(of: $0)?.advanced(by: 1) }
+        dateEvents = resultArray
     }
 }
 
