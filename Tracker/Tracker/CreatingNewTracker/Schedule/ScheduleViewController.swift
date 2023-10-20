@@ -67,10 +67,6 @@ final class ScheduleViewController: UIViewController {
     // MARK: - Private methods
     private func sortedDayInWeek(weekDayArray: [String]) -> [String]?{
         let abbreviationDays: [String] = weekDayArray.compactMap { day in
-            let dateFormatter = DateFormatter()
-            print(dateFormatter)
-            dateFormatter.locale = Locale(identifier: "ru_RU")
-            dateFormatter.dateFormat = "E"
             if let date = dateFormatter.date(from: day) {
                 return dateFormatter.string(from: date)
             }

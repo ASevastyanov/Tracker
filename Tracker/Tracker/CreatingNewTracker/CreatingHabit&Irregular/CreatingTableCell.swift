@@ -9,7 +9,14 @@ import UIKit
 
 final class CreatingTableCell: UITableViewCell {
     //MARK: - UiElements
-    private let stackView = UIStackView()
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .leading
+        stackView.spacing = 2.0
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     private let categoryLabel: UILabel = {
         let trackerLabel = UILabel()
@@ -33,7 +40,6 @@ final class CreatingTableCell: UITableViewCell {
         self.selectionStyle = .none
         self.accessoryType = .disclosureIndicator
         self.backgroundColor = .backgroundDay
-        configSetingsView()
         configViews()
         configConstraints()
     }
@@ -50,13 +56,6 @@ final class CreatingTableCell: UITableViewCell {
     }
     
     // MARK: - Private methods
-    private func configSetingsView() {
-        stackView.alignment = .leading
-        stackView.spacing = 2.0
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
     private func configViews() {
         stackView.addArrangedSubview(categoryLabel)
         stackView.addArrangedSubview(subTitleLabel)

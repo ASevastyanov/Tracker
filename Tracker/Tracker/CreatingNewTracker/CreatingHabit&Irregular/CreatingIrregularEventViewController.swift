@@ -13,11 +13,13 @@ protocol CreatingIrregularEventViewControllerDelegate: AnyObject {
 
 // MARK: - CreatingHabitViewController
 final class CreatingIrregularEventViewController: UIViewController {
+    weak var delegate: TrackerCreationDelegate?
     private let dataSorege = DataStorege.shared
-    private var countButtonForTableView = [("Категория", "")]
     private let characterLimitInField = 38
     private let color: UIColor = .colorSelection.randomElement()!
-    weak var delegate: TrackerCreationDelegate?
+    private var creatingTrackersModel: [CreatingTrackersModel] = [
+        CreatingTrackersModel(titleLabelText: "Категория", subTitleLabel: "")
+    ]
     
     //MARK: - UiElements
     private var tableView: UITableView = .init()
@@ -51,10 +53,19 @@ final class CreatingIrregularEventViewController: UIViewController {
         label.text = "Ограничение 38 символов"
         label.textColor = .redYP
         label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .justified
+        label.textAlignment = .center
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var stackViewForTextField: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [nameTrackerTextField, errorLabel])
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var cancelButton: UIButton = {
@@ -116,7 +127,7 @@ final class CreatingIrregularEventViewController: UIViewController {
     private func create() {
         guard let text = nameTrackerTextField.text else { return }
         let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: "🤔", dateEvents: nil)
-        let categoryTracker = TrackerCategory(title: countButtonForTableView[0].1, trackers: [newTracker])
+        let categoryTracker = TrackerCategory(title: creatingTrackersModel[0].subTitleLabel, trackers: [newTracker])
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
@@ -124,7 +135,7 @@ final class CreatingIrregularEventViewController: UIViewController {
     
     //MARK: - Private methods
     private func updateCreatingButton() {
-        let categoryForActivButton = countButtonForTableView[0].1
+        let categoryForActivButton = creatingTrackersModel[0].subTitleLabel
         creatingButton.isEnabled = nameTrackerTextField.text?.isEmpty == false && categoryForActivButton.isEmpty == false
         if creatingButton.isEnabled {
             creatingButton.backgroundColor = .blackDay
@@ -138,11 +149,9 @@ final class CreatingIrregularEventViewController: UIViewController {
         tableView.register(CreatingTableCell.self, forCellReuseIdentifier: "CreatingTableCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorColor = .grayYP
         tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -150,8 +159,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         _ = self.skipKeyboard
         view.backgroundColor = .whiteDay
         view.addSubview(newHabitLabel)
-        view.addSubview(nameTrackerTextField)
-        view.addSubview(errorLabel)
+        view.addSubview(stackViewForTextField)
         view.addSubview(tableView)
         view.addSubview(cancelButton)
         view.addSubview(creatingButton)
@@ -161,13 +169,12 @@ final class CreatingIrregularEventViewController: UIViewController {
         NSLayoutConstraint.activate([
             newHabitLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newHabitLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
-            nameTrackerTextField.topAnchor.constraint(equalTo: newHabitLabel.bottomAnchor, constant: 38),
+            nameTrackerTextField.topAnchor.constraint(equalTo: newHabitLabel.bottomAnchor, constant: 28),
             nameTrackerTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             nameTrackerTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameTrackerTextField.heightAnchor.constraint(equalToConstant: 75),
-            errorLabel.topAnchor.constraint(equalTo: nameTrackerTextField.bottomAnchor, constant: 8),
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 237),
+            tableView.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 75),
@@ -186,7 +193,7 @@ final class CreatingIrregularEventViewController: UIViewController {
 // MARK: - CreatingIrregularEventViewControllerDelegate
 extension CreatingIrregularEventViewController: CreatingIrregularEventViewControllerDelegate {
     func updateSubitle(nameSubitle: String) {
-        countButtonForTableView[0].1 = nameSubitle
+        creatingTrackersModel[0].subTitleLabel = nameSubitle
         tableView.reloadData()
         updateCreatingButton()
     }
@@ -223,14 +230,14 @@ extension CreatingIrregularEventViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension CreatingIrregularEventViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countButtonForTableView.count
+        return creatingTrackersModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CreatingTableCell", for: indexPath) as? CreatingTableCell
         else { fatalError() }
-        let data = countButtonForTableView[indexPath.row]
-        cell.configureCell(title: data.0, subTitle: data.1)
+        let data = creatingTrackersModel[indexPath.row]
+        cell.configureCell(title: data.titleLabelText, subTitle: data.subTitleLabel)
         
         return cell
     }

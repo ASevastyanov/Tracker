@@ -18,12 +18,15 @@ protocol CreatingHabitViewControllerDelegate: AnyObject {
 
 // MARK: - CreatingHabitViewController
 final class CreatingHabitViewController: UIViewController {
+    weak var delegate: TrackerCreationDelegate?
     private let dataSorege = DataStorege.shared
     private let characterLimitInField = 38
-    private var countButtonForTableView = [("Категория", ""), ("Расписание", "")]
     private let color: UIColor = .colorSelection.randomElement()!
     private var dateEvents = [Int]()
-    weak var delegate: TrackerCreationDelegate?
+    private var creatingTrackersModel: [CreatingTrackersModel] = [
+        CreatingTrackersModel(titleLabelText: "Категория", subTitleLabel: ""),
+        CreatingTrackersModel(titleLabelText: "Расписание", subTitleLabel: "")
+        ]
     
     //MARK: - UiElements
     private var tableView: UITableView = .init()
@@ -57,10 +60,19 @@ final class CreatingHabitViewController: UIViewController {
         label.text = "Ограничение 38 символов"
         label.textColor = .redYP
         label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .justified
+        label.textAlignment = .center
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var stackViewForTextField: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [nameTrackerTextField, errorLabel])
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var cancelButton: UIButton = {
@@ -121,7 +133,7 @@ final class CreatingHabitViewController: UIViewController {
     private func create() {
         guard let text = nameTrackerTextField.text else { return }
         let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: "🤔", dateEvents: dateEvents)
-        let categoryTracker = TrackerCategory(title: countButtonForTableView[0].1, trackers: [newTracker])
+        let categoryTracker = TrackerCategory(title: creatingTrackersModel[0].subTitleLabel, trackers: [newTracker])
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
@@ -129,8 +141,8 @@ final class CreatingHabitViewController: UIViewController {
     
     //MARK: - Private methods
     private func updateCreatingButton() {
-        let categoryForActivButton = countButtonForTableView[0].1
-        let weekDayForActivButton = countButtonForTableView[1].1
+        let categoryForActivButton = creatingTrackersModel[0].subTitleLabel
+        let weekDayForActivButton = creatingTrackersModel[1].subTitleLabel
         creatingButton.isEnabled = nameTrackerTextField.text?.isEmpty == false && categoryForActivButton.isEmpty == false && weekDayForActivButton.isEmpty == false
         if creatingButton.isEnabled {
             creatingButton.backgroundColor = .blackDay
@@ -161,8 +173,7 @@ final class CreatingHabitViewController: UIViewController {
         _ = self.skipKeyboard
         view.backgroundColor = .whiteDay
         view.addSubview(newHabitLabel)
-        view.addSubview(nameTrackerTextField)
-        view.addSubview(errorLabel)
+        view.addSubview(stackViewForTextField)
         view.addSubview(tableView)
         view.addSubview(cancelButton)
         view.addSubview(creatingButton)
@@ -172,13 +183,12 @@ final class CreatingHabitViewController: UIViewController {
         NSLayoutConstraint.activate([
             newHabitLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newHabitLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
-            nameTrackerTextField.topAnchor.constraint(equalTo: newHabitLabel.bottomAnchor, constant: 38),
+            nameTrackerTextField.topAnchor.constraint(equalTo: newHabitLabel.bottomAnchor, constant: 28),
             nameTrackerTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             nameTrackerTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameTrackerTextField.heightAnchor.constraint(equalToConstant: 75),
-            errorLabel.topAnchor.constraint(equalTo: nameTrackerTextField.bottomAnchor, constant: 8),
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 237),
+            tableView.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 149),
@@ -199,10 +209,10 @@ extension CreatingHabitViewController: CreatingHabitViewControllerDelegate {
     func updateDate(days: [String]) {
         if !days.isEmpty {
             if days.count == 7 {
-                countButtonForTableView[1].1 = "Каждый день"
+                creatingTrackersModel[1].subTitleLabel = "Каждый день"
                 convertToDayInDateFormatter(days)
             } else {
-                countButtonForTableView[1].1 = days.joined(separator: ", ")
+                creatingTrackersModel[1].subTitleLabel = days.joined(separator: ", ")
                 convertToDayInDateFormatter(days)
             }
         }
@@ -211,7 +221,7 @@ extension CreatingHabitViewController: CreatingHabitViewControllerDelegate {
     }
     
     func updateSubitle(nameSubitle: String) {
-        countButtonForTableView[0].1 = nameSubitle
+        creatingTrackersModel[0].subTitleLabel = nameSubitle
         tableView.reloadData()
         updateCreatingButton()
     }
@@ -265,8 +275,8 @@ extension CreatingHabitViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CreatingTableCell", for: indexPath) as? CreatingTableCell
         else { fatalError() }
-        let data = countButtonForTableView[indexPath.row]
-        cell.configureCell(title: data.0, subTitle: data.1)
+        let data = creatingTrackersModel[indexPath.row]
+        cell.configureCell(title: data.titleLabelText, subTitle: data.subTitleLabel)
         return cell
     }
 }

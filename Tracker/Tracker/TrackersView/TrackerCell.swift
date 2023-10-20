@@ -17,7 +17,6 @@ final class TrackerCell: UICollectionViewCell {
     private var isCompletedToday = false
     private var trackerId: UUID?
     
-    
     //MARK: - UiElements
     let backgroundCellView: UIView = {
         let view = UIView()

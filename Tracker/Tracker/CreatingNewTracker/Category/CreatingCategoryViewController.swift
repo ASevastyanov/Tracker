@@ -8,8 +8,8 @@
 import UIKit
 
 final class CreatingCategoryViewController: UIViewController {
-    private let categoryViewController = CategoryViewController()
     weak var delegate: CategoryViewDelegate?
+    private let categoryViewController = CategoryViewController()
     private let characterLimitInField = 38
     
     //MARK: - UiElements

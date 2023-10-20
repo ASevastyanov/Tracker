@@ -7,12 +7,14 @@
 
 import Foundation
 
-private var dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .long
-    formatter.timeStyle = .none
-    formatter.dateFormat = "MM/dd/YY"
-    return formatter
+var dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .long
+    dateFormatter.timeStyle = .none
+    dateFormatter.dateFormat = "MM/dd/YY"
+    dateFormatter.locale = Locale(identifier: "ru_RU")
+    dateFormatter.dateFormat = "E"
+    return dateFormatter
 }()
 
 extension Date {

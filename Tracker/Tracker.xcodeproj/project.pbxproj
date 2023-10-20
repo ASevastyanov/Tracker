@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		963DF95D2AE2EA8400DE56F5 /* CreatingTrackersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */; };
 		9642A4852ACB330A003D8172 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4842ACB330A003D8172 /* Date.swift */; };
 		9642A4882ACC768E003D8172 /* CreatingNewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */; };
 		9642A48A2ACD98F0003D8172 /* CreatingHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4892ACD98F0003D8172 /* CreatingHabitViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingTrackersModel.swift; sourceTree = "<group>"; };
 		9642A4842ACB330A003D8172 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingNewTrackerViewController.swift; sourceTree = "<group>"; };
 		9642A4892ACD98F0003D8172 /* CreatingHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingHabitViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				96ED93842ADBD3AE000C6028 /* Tracker.swift */,
 				96ED938A2ADD75F3000C6028 /* TrackerCategory.swift */,
 				96ED938C2ADD760D000C6028 /* TrackerRecord.swift */,
+				963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				9642A48C2ACD9930003D8172 /* CreatingIrregularEventViewController.swift in Sources */,
 				9642A48A2ACD98F0003D8172 /* CreatingHabitViewController.swift in Sources */,
 				9642A49C2AD43F8C003D8172 /* DataStorege.swift in Sources */,
+				963DF95D2AE2EA8400DE56F5 /* CreatingTrackersModel.swift in Sources */,
 				96ED93852ADBD3AE000C6028 /* Tracker.swift in Sources */,
 				9642A49A2AD40482003D8172 /* CreatingCategoryViewController.swift in Sources */,
 				96ED93872ADC3D5C000C6028 /* OptionsForCollection.swift in Sources */,

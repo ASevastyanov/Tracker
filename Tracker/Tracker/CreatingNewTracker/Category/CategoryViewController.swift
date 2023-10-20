@@ -14,9 +14,9 @@ protocol CategoryViewDelegate: AnyObject {
 
 //MARK: - CategoryViewController
 final class CategoryViewController: UIViewController {
-    private let dataSorege = DataStorege.shared
     weak var delegateHabbit: CreatingHabitViewControllerDelegate?
     weak var delegateIrregular: CreatingIrregularEventViewControllerDelegate?
+    private let dataSorege = DataStorege.shared
     private var category = [String]()
     
     //MARK: - UiElements

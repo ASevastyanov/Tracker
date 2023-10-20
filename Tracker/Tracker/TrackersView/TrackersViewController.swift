@@ -30,7 +30,7 @@ final class TrackersViewController: UIViewController {
     //MARK: - UiElements
     private let navigationBar = UINavigationBar()
     
-    var collectionView: UICollectionView = {
+    private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
@@ -55,6 +55,7 @@ final class TrackersViewController: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.layer.cornerRadius = 8
+        datePicker.calendar.firstWeekday = 2
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.addTarget(self, action: #selector(filterByDate), for: .valueChanged)
         return datePicker
@@ -150,7 +151,8 @@ final class TrackersViewController: UIViewController {
     private func configPlaceholderStub() {
         placeholderView.isHidden = false
         collectionView.isHidden = true
-        if visibleCategories.isEmpty && !categories.isEmpty {
+        let searchText = searchBar.text ?? ""
+        if visibleCategories.isEmpty && !categories.isEmpty || !searchText.isEmpty{
             searchMainPlaceholderStub.text = "Ничего не найдено"
             mainImageStub.image = UIImage(named: "nothingFoundIcon")
         } else {
@@ -332,7 +334,6 @@ extension TrackersViewController: UISearchBarDelegate {
         if searchText.isEmpty {
             visibleCategories = categories
         } else {
-            guard searchText != "" || searchText != " " else { return }
             updateVisibleCategories()
         }
     }
