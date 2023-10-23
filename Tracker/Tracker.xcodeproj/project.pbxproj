@@ -19,6 +19,8 @@
 		9642A4982AD3FBA0003D8172 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4972AD3FBA0003D8172 /* ScheduleCell.swift */; };
 		9642A49A2AD40482003D8172 /* CreatingCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4992AD40482003D8172 /* CreatingCategoryViewController.swift */; };
 		9642A49C2AD43F8C003D8172 /* DataStorege.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A49B2AD43F8C003D8172 /* DataStorege.swift */; };
+		965A9A662AE5673500918949 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965A9A652AE5673500918949 /* EmojiCollectionViewCell.swift */; };
+		965A9A682AE5675F00918949 /* ColorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965A9A672AE5675F00918949 /* ColorsCollectionViewCell.swift */; };
 		96C858F72AC985F0000CBA0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858F62AC985F0000CBA0E /* AppDelegate.swift */; };
 		96C858F92AC985F0000CBA0E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858F82AC985F0000CBA0E /* SceneDelegate.swift */; };
 		96C858FB2AC985F0000CBA0E /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858FA2AC985F0000CBA0E /* TrackersViewController.swift */; };
@@ -49,6 +51,8 @@
 		9642A4972AD3FBA0003D8172 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
 		9642A4992AD40482003D8172 /* CreatingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingCategoryViewController.swift; sourceTree = "<group>"; };
 		9642A49B2AD43F8C003D8172 /* DataStorege.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorege.swift; sourceTree = "<group>"; };
+		965A9A652AE5673500918949 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		965A9A672AE5675F00918949 /* ColorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		96C858F32AC985F0000CBA0E /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96C858F62AC985F0000CBA0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		96C858F82AC985F0000CBA0E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 				9642A4892ACD98F0003D8172 /* CreatingHabitViewController.swift */,
 				9642A48B2ACD9930003D8172 /* CreatingIrregularEventViewController.swift */,
 				9642A48F2ACFF63E003D8172 /* CreatingTableCell.swift */,
+				965A9A652AE5673500918949 /* EmojiCollectionViewCell.swift */,
+				965A9A672AE5675F00918949 /* ColorsCollectionViewCell.swift */,
 			);
 			path = "CreatingHabit&Irregular";
 			sourceTree = "<group>";
@@ -295,12 +301,14 @@
 				96ED93942AE03207000C6028 /* UIViewController.swift in Sources */,
 				96ED938D2ADD760D000C6028 /* TrackerRecord.swift in Sources */,
 				96ED93822ADBCFF5000C6028 /* TrackerCell.swift in Sources */,
+				965A9A682AE5675F00918949 /* ColorsCollectionViewCell.swift in Sources */,
 				96C858FB2AC985F0000CBA0E /* TrackersViewController.swift in Sources */,
 				9642A4982AD3FBA0003D8172 /* ScheduleCell.swift in Sources */,
 				96ED938B2ADD75F3000C6028 /* TrackerCategory.swift in Sources */,
 				9642A4852ACB330A003D8172 /* Date.swift in Sources */,
 				96C8590E2AC9C794000CBA0E /* UIColor.swift in Sources */,
 				9642A4922AD3222F003D8172 /* CategoryViewController.swift in Sources */,
+				965A9A662AE5673500918949 /* EmojiCollectionViewCell.swift in Sources */,
 				9642A48E2ACEF966003D8172 /* TextField.swift in Sources */,
 				9642A48C2ACD9930003D8172 /* CreatingIrregularEventViewController.swift in Sources */,
 				9642A48A2ACD98F0003D8172 /* CreatingHabitViewController.swift in Sources */,
