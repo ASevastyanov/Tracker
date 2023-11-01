@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func didCreateTracker(_ tracker: Tracker, category: TrackerCategory)
+    func didCreateTracker(_ tracker: Tracker, category: String)
 }
 
 protocol CreatingHabitViewControllerDelegate: AnyObject {
@@ -126,6 +126,7 @@ final class CreatingHabitViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorColor = .grayYP
+        tableView.backgroundColor = .backgroundDay
         tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
@@ -180,7 +181,7 @@ final class CreatingHabitViewController: UIViewController {
         let emoji = emojis[selectedEmojiIndexPath.row]
         let color = colors[selectedColorIndexPath.row]
         let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: emoji, dateEvents: dateEvents)
-        let categoryTracker = TrackerCategory(title: creatingTrackersModel[0].subTitleLabel, trackers: [newTracker])
+        let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
@@ -188,12 +189,16 @@ final class CreatingHabitViewController: UIViewController {
     
     //MARK: - Private methods
     private func updateCreatingButton() {
-        let categoryForActivButton = creatingTrackersModel[0].subTitleLabel
-        let weekDayForActivButton = creatingTrackersModel[1].subTitleLabel
-        guard let selectedEmojiIndexPath = isSelectedEmoji else { return }
-        guard let selectedColorIndexPath = isSelectedColor else { return }
-        creatingButton.isEnabled = nameTrackerTextField.text?.isEmpty == false && categoryForActivButton.isEmpty == false && weekDayForActivButton.isEmpty == false && selectedEmojiIndexPath.isEmpty == false && selectedColorIndexPath.isEmpty == false 
-        if creatingButton.isEnabled == false {
+        let categoryForActivButtonHabbit = creatingTrackersModel[0].subTitleLabel
+        let weekDayForActivButtonHabbit = creatingTrackersModel[1].subTitleLabel
+        guard let selectedEmojiIndexPathHabbit = isSelectedEmoji else { return }
+        guard let selectedColorIndexPathHabbit = isSelectedColor else { return }
+        creatingButton.isEnabled = nameTrackerTextField.text?.isEmpty == false &&
+        categoryForActivButtonHabbit.isEmpty == false &&
+        weekDayForActivButtonHabbit.isEmpty == false &&
+        selectedEmojiIndexPathHabbit.isEmpty == false &&
+        selectedColorIndexPathHabbit.isEmpty == false
+        if creatingButton.isEnabled {
             creatingButton.backgroundColor = .blackDay
         } else {
             creatingButton.isEnabled = false

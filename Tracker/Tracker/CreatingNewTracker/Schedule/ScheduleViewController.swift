@@ -81,6 +81,7 @@ final class ScheduleViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorColor = .grayYP
         tableView.layer.cornerRadius = 16
+        tableView.backgroundColor = .none
         tableView.layer.masksToBounds = true
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.translatesAutoresizingMaskIntoConstraints = false

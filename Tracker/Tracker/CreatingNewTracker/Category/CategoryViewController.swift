@@ -18,6 +18,7 @@ final class CategoryViewController: UIViewController {
     weak var delegateIrregular: CreatingIrregularEventViewControllerDelegate?
     private let dataSorege = DataStorege.shared
     private var category = [String]()
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     //MARK: - UiElements
     private var tableView: UITableView = .init()
@@ -43,6 +44,7 @@ final class CategoryViewController: UIViewController {
         let label = UILabel()
         label.text = "Привычки и события можно\nобъединить по смыслу"
         label.numberOfLines = 2
+        label.textColor = .blackDay
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +83,7 @@ final class CategoryViewController: UIViewController {
     
     // MARK: - Private methods
     private func checkForAvailableCategories() {
-        category = dataSorege.loadCategories()
+        try? fetchedCategory()
         tableView.reloadData()
         if !category.isEmpty {
             configTableView()
@@ -97,6 +99,7 @@ final class CategoryViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorColor = .grayYP
         tableView.layer.cornerRadius = 16
+        tableView.backgroundColor = .none
         tableView.layer.masksToBounds = true
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -159,8 +162,7 @@ final class CategoryViewController: UIViewController {
 // MARK: - CategoryViewDelegate
 extension CategoryViewController: CategoryViewDelegate {
     func updateData(nameCategory: String) {
-        dataSorege.saveCategories(nameCategory)
-        category = dataSorege.loadCategories()
+        try? createCategory(nameOfCategory: nameCategory)
         checkForAvailableCategories()
         tableView.reloadData()
     }
@@ -189,7 +191,7 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
             guard let self = self else { return }
-            self.dataSorege.removeCategory(atIndex: indexPath.row)
+            try? self.removeCategory(atIndex: indexPath.row)
             self.checkForAvailableCategories()
         }
         let deleteMenu = UIMenu(title: "", children: [deleteAction])
@@ -209,11 +211,49 @@ extension CategoryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         let categoryName = category[indexPath.row]
         cell.textLabel?.text = categoryName
+        cell.textLabel?.textColor = .blackDay
         cell.backgroundColor = .backgroundDay
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 10
         cell.layer.maskedCorners = roundingForCellsInATable(cellIndex: indexPath.row, numberOfLines: category.count)
         cell.accessoryType = indexPath == dataSorege.loadIndexPathForCheckmark() ? .checkmark : .none
         return cell
+    }
+}
+
+// MARK: - CategoryStore
+extension CategoryViewController {
+    private func fetchedCategory() throws {
+        do {
+            let categories = try trackerCategoryStore.fetchAllCategories()
+            category = categories.compactMap { $0.titleCategory }
+        } catch {
+            throw StoreError.failedReading
+        }
+    }
+    
+    private func createCategory(nameOfCategory: String) throws {
+        do {
+            let newCategory = TrackerCategory(title: nameOfCategory, trackers: [])
+            try trackerCategoryStore.createCategory(newCategory)
+        } catch {
+            throw StoreError.failedToWrite
+        }
+    }
+    
+    private func removeCategory(atIndex index: Int) throws {
+        let nameOfCategory = category[index]
+        do {
+            try trackerCategoryStore.deleteCategory(with: nameOfCategory)
+        } catch {
+            throw StoreError.failedActoionDelete
+        }
+    }
+}
+
+// MARK: - TrackerStoreDelegate
+extension CategoryViewController: TrackerCategoryStoreDelegate {
+    func didUpdateData(in store: TrackerCategoryStore) {
+        tableView.reloadData()
     }
 }

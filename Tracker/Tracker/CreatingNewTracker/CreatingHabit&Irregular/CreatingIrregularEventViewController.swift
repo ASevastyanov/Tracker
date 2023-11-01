@@ -119,6 +119,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         tableView.register(CreatingTableCell.self, forCellReuseIdentifier: "CreatingTableCell")
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .backgroundDay
         tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
@@ -172,7 +173,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         let emoji = emojis[selectedEmojiIndexPath.row]
         let color = colors[selectedColorIndexPath.row]
         let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: emoji, dateEvents: nil)
-        let categoryTracker = TrackerCategory(title: creatingTrackersModel[0].subTitleLabel, trackers: [newTracker])
+        let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
@@ -183,7 +184,10 @@ final class CreatingIrregularEventViewController: UIViewController {
         let categoryForActivButton = creatingTrackersModel[0].subTitleLabel
         guard let selectedEmojiIndexPath = isSelectedEmoji else { return }
         guard let selectedColorIndexPath = isSelectedColor else { return }
-        creatingButton.isEnabled = nameTrackerTextField.text?.isEmpty == false && categoryForActivButton.isEmpty == false && selectedEmojiIndexPath.isEmpty == false && selectedColorIndexPath.isEmpty == false
+        creatingButton.isEnabled = nameTrackerTextField.text?.isEmpty == false &&
+        categoryForActivButton.isEmpty == false &&
+        selectedEmojiIndexPath.isEmpty == false &&
+        selectedColorIndexPath.isEmpty == false
         if creatingButton.isEnabled {
             creatingButton.backgroundColor = .blackDay
         } else {
