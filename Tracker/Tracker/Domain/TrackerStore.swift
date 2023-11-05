@@ -9,9 +9,7 @@ import UIKit
 import CoreData
 
 final class TrackerStore {
-    static let shared = TrackerStore()
     private let context: NSManagedObjectContext
-    private let uiColorMarshalling = UIColorMarshalling()
     
     // MARK: Initialisation
     convenience init() {
@@ -31,9 +29,9 @@ final class TrackerStore {
         let newTracker = TrackerCoreData(entity: trackerCoreData, insertInto: context)
         newTracker.id = tracker.id
         newTracker.name = tracker.name
-        newTracker.color = uiColorMarshalling.hexString(from: tracker.color)
+        newTracker.color = UIColorMarshalling.hexString(from: tracker.color)
         newTracker.emoji = tracker.emoji
-        newTracker.dataEvents = tracker.dateEvents as NSArray?
+        newTracker.dateEvents = tracker.dateEvents as NSArray?
         return newTracker
     }
     
@@ -51,9 +49,9 @@ final class TrackerStore {
                 return Tracker(
                     id: trackerCoreData.id ?? UUID(),
                     name: trackerCoreData.name ?? "",
-                    color: uiColorMarshalling.color(from: trackerCoreData.color ?? ""),
+                    color: UIColorMarshalling.color(from: trackerCoreData.color ?? ""),
                     emoji: trackerCoreData.emoji ?? "",
-                    dateEvents: trackerCoreData.dataEvents as? [Int]
+                    dateEvents: trackerCoreData.dateEvents as? [Int]
                 )
             }
             return trackers
@@ -73,9 +71,9 @@ final class TrackerStore {
         return Tracker(
             id: id,
             name: name,
-            color: uiColorMarshalling.color(from: color),
+            color: UIColorMarshalling.color(from: color),
             emoji: emoji,
-            dateEvents: trackersCoreData.dataEvents as? [Int]
+            dateEvents: trackersCoreData.dateEvents as? [Int]
         )
     }
 }

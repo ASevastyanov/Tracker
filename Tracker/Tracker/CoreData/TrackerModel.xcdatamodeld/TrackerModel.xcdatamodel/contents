@@ -6,7 +6,7 @@
     </entity>
     <entity name="TrackerCoreData" representedClassName="TrackerCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="color" attributeType="String"/>
-        <attribute name="dataEvents" optional="YES" attributeType="Transformable" valueTransformerName="NSArray"/>
+        <attribute name="dateEvents" optional="YES" attributeType="Transformable" valueTransformerName="NSArray"/>
         <attribute name="emoji" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>

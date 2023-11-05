@@ -99,7 +99,7 @@ extension TrackerCategoryStore {
         guard let trackerCoreData = try trackerStore.addNewTracker(from: tracker) else {
             throw StoreError.failedToWrite
         }
-        guard let existingCategory = try fetchedCategory(with: titleCategory) else {
+        guard let existingCategory = try fetchCategory(with: titleCategory) else {
             throw StoreError.failedReading
         }
         var existingTrackers = existingCategory.trackers?.allObjects as? [TrackerCoreData] ?? []
@@ -109,7 +109,7 @@ extension TrackerCategoryStore {
     }
     
     //MARK: - Private methods
-    private func fetchedCategory(with title: String) throws -> TrackerCategoryCoreData? {
+    private func fetchCategory(with title: String) throws -> TrackerCategoryCoreData? {
         let request = fetchedResultController.fetchRequest
         request.predicate = NSPredicate(format: "titleCategory == %@", title)
         return try context.fetch(request).first

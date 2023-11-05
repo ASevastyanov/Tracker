@@ -119,7 +119,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         tableView.register(CreatingTableCell.self, forCellReuseIdentifier: "CreatingTableCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .backgroundDay
+        tableView.separatorStyle = .none
         tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false

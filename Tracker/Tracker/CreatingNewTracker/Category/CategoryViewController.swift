@@ -83,7 +83,7 @@ final class CategoryViewController: UIViewController {
     
     // MARK: - Private methods
     private func checkForAvailableCategories() {
-        try? fetchedCategory()
+        try? fetchCategory()
         tableView.reloadData()
         if !category.isEmpty {
             configTableView()
@@ -97,7 +97,7 @@ final class CategoryViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorColor = .grayYP
+        //tableView.separatorColor = .backgroundDay
         tableView.layer.cornerRadius = 16
         tableView.backgroundColor = .none
         tableView.layer.masksToBounds = true
@@ -155,6 +155,15 @@ final class CategoryViewController: UIViewController {
             return [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         default:
             return []
+        }
+    }
+    
+    private func separatorInsetForCell(index: Int) -> UIEdgeInsets {
+        let quantityCategory = category.count - 1
+        if index == quantityCategory {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
     }
 }
@@ -215,6 +224,7 @@ extension CategoryViewController: UITableViewDataSource {
         cell.backgroundColor = .backgroundDay
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 10
+        cell.separatorInset = separatorInsetForCell(index: indexPath.row)
         cell.layer.maskedCorners = roundingForCellsInATable(cellIndex: indexPath.row, numberOfLines: category.count)
         cell.accessoryType = indexPath == dataSorege.loadIndexPathForCheckmark() ? .checkmark : .none
         return cell
@@ -223,7 +233,7 @@ extension CategoryViewController: UITableViewDataSource {
 
 // MARK: - CategoryStore
 extension CategoryViewController {
-    private func fetchedCategory() throws {
+    private func fetchCategory() throws {
         do {
             let categories = try trackerCategoryStore.fetchAllCategories()
             category = categories.compactMap { $0.titleCategory }

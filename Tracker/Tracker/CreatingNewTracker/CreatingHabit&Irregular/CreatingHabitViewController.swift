@@ -125,8 +125,6 @@ final class CreatingHabitViewController: UIViewController {
         tableView.register(CreatingTableCell.self, forCellReuseIdentifier: "CreatingTableCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorColor = .grayYP
-        tableView.backgroundColor = .backgroundDay
         tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
@@ -397,7 +395,7 @@ extension CreatingHabitViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? EmojiCollectionViewCell else { return UICollectionViewCell()}
             cell.titleLabel.text = emojis[indexPath.row]
-            cell.backgroundColor = cell.isSelected ? .backgroundDay : .clear
+            cell.backgroundColor = cell.isSelected ? .lightGrayYP : .clear
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(

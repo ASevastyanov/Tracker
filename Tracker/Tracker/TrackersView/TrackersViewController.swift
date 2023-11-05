@@ -15,7 +15,7 @@ final class TrackersViewController: UIViewController {
     private var filteredCategoriesByDate: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
-    private var currentDate: Date = Date()
+    private var selectedDate: Date = Date()
     private var categories: [TrackerCategory] = [] {
         didSet {
             visibleCategories = categories
@@ -125,7 +125,7 @@ final class TrackersViewController: UIViewController {
         configConstraints()
         configNavigationBar()
         configCollectionView()
-        try? fetchedCategory()
+        try? fetchCategory()
         checkingForActiveTrackers()
         updateVisibleCategories()
         try? fetchRecord()
@@ -142,7 +142,7 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func filterByDate() {
-        currentDate = datePicker.date
+        selectedDate = datePicker.date
         updateVisibleCategories()
         dismiss(animated: true)
     }
@@ -181,7 +181,7 @@ final class TrackersViewController: UIViewController {
         } else {
             filteredCategoriesBySearch = categories
         }
-        let dayOfWeek = currentDate.dayOfWeek()
+        let dayOfWeek = selectedDate.dayOfWeek()
         filteredCategoriesByDate = filteredCategoriesBySearch.map { categories in
             let filter = categories.trackers.filter {
                 $0.dateEvents?.contains(dayOfWeek) ?? true
@@ -260,7 +260,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackerCell", for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         let daysCount = completedTrackers.filter { $0.id == tracker.id }.count
-        let IsCompleted = completedTrackers.contains {$0.id == tracker.id && сomparOfTrackerDates(date1: $0.date, date2: currentDate)}
+        let IsCompleted = completedTrackers.contains {$0.id == tracker.id && сomparOfTrackerDates(date1: $0.date, date2: selectedDate)}
         cell.delegate = self
         cell.setupCell(tracker: tracker)
         cell.completeTracker(days: daysCount, completed: IsCompleted)
@@ -376,7 +376,7 @@ extension TrackersViewController: UISearchBarDelegate {
 extension TrackersViewController: TrackerCreationDelegate {
     func didCreateTracker(_ tracker: Tracker, category: String) {
         try? createCategoryAndTracker(ctracker: tracker, with: category)
-        try? fetchedCategory()
+        try? fetchCategory()
         checkingForActiveTrackers()
         updateVisibleCategories()
         collectionView.reloadData()
@@ -386,9 +386,9 @@ extension TrackersViewController: TrackerCreationDelegate {
 //MARK: - TrackerCellDelegate
 extension TrackersViewController: TrackerCellDelegate {
     func trackerCompleted(id: UUID) {
-        let record = TrackerRecord(id: id, date: currentDate)
-        if currentDate <= Date() {
-            if !completedTrackers.contains(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
+        let record = TrackerRecord(id: id, date: selectedDate)
+        if selectedDate <= Date() {
+            if !completedTrackers.contains(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }) {
                 try? createRecord(record: record)
             }
             collectionView.reloadData()
@@ -396,7 +396,7 @@ extension TrackersViewController: TrackerCellDelegate {
     }
     
     func trackerNotCompleted(id: UUID) {
-        if let index = completedTrackers.firstIndex(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
+        if let index = completedTrackers.firstIndex(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }) {
             try? deleteRecord(atIndex: index)
         }
         try? fetchRecord()
@@ -406,7 +406,7 @@ extension TrackersViewController: TrackerCellDelegate {
 
 // MARK: - CategoryStore
 extension TrackersViewController {
-    private func fetchedCategory() throws {
+    private func fetchCategory() throws {
         do {
             let coreDataCategories = try trackerCategoryStore.fetchAllCategories()
             categories = try coreDataCategories.compactMap { coreDataCategory in
