@@ -36,22 +36,22 @@ extension DataStorege {
         defaults.synchronize()
     }
     
-    func saveCategories(_ categories: String) {
-        let category = [categories]
-        var existingCategories = loadCategories()
-        existingCategories.append(contentsOf: category)
-        defaults.set(existingCategories, forKey: categoryKey)
-    }
-    
-    func removeCategory(atIndex index: Int) {
-        var existingCategories = loadCategories()
-        existingCategories.remove(at: index)
-        defaults.set(existingCategories, forKey: categoryKey)
-    }
-    
-    func loadCategories() -> [String] {
-        return defaults.stringArray(forKey: categoryKey) ?? []
-    }
+//    func saveCategories(_ categories: String) {
+//        let category = [categories]
+//        var existingCategories = loadCategories()
+//        existingCategories.append(contentsOf: category)
+//        defaults.set(existingCategories, forKey: categoryKey)
+//    }
+//    
+//    func removeCategory(atIndex index: Int) {
+//        var existingCategories = loadCategories()
+//        existingCategories.remove(at: index)
+//        defaults.set(existingCategories, forKey: categoryKey)
+//    }
+//    
+//    func loadCategories() -> [String] {
+//        return defaults.stringArray(forKey: categoryKey) ?? []
+//    }
 }
 
 // MARK: - ScheduleViewController
