@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		963A72CC2AF9FECD00C5569C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963A72CB2AF9FECD00C5569C /* OnboardingViewController.swift */; };
+		963A72CE2AFA085400C5569C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963A72CD2AFA085400C5569C /* ContentViewController.swift */; };
 		963DF95D2AE2EA8400DE56F5 /* CreatingTrackersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */; };
 		9642A4852ACB330A003D8172 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4842ACB330A003D8172 /* Date.swift */; };
 		9642A4882ACC768E003D8172 /* CreatingNewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		963A72CB2AF9FECD00C5569C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		963A72CD2AFA085400C5569C /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingTrackersModel.swift; sourceTree = "<group>"; };
 		9642A4842ACB330A003D8172 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		9642A4872ACC768E003D8172 /* CreatingNewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingNewTrackerViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		963A72CA2AF92E1000C5569C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				963A72CB2AF9FECD00C5569C /* OnboardingViewController.swift */,
+				963A72CD2AFA085400C5569C /* ContentViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		9642A4862ACC7666003D8172 /* CreatingNewTracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +186,7 @@
 		96C858F52AC985F0000CBA0E /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				963A72CA2AF92E1000C5569C /* Onboarding */,
 				965A9A902AE7C30800918949 /* Domain */,
 				965A9A692AE7849100918949 /* CoreData */,
 				96C8590A2AC995E4000CBA0E /* Resources */,
@@ -331,6 +345,7 @@
 				9642A4942AD322BF003D8172 /* ScheduleViewController.swift in Sources */,
 				9642A4902ACFF63E003D8172 /* CreatingTableCell.swift in Sources */,
 				965A9A982AE7C6B000918949 /* UIColorMarshalling.swift in Sources */,
+				963A72CC2AF9FECD00C5569C /* OnboardingViewController.swift in Sources */,
 				96ED93892ADC4677000C6028 /* SupplementaryView.swift in Sources */,
 				96ED93922ADED1F6000C6028 /* StatisticsViewController.swift in Sources */,
 				965A9A922AE7C39A00918949 /* TrackerStore.swift in Sources */,
@@ -347,6 +362,7 @@
 				9642A4922AD3222F003D8172 /* CategoryViewController.swift in Sources */,
 				965A9A662AE5673500918949 /* EmojiCollectionViewCell.swift in Sources */,
 				9642A48E2ACEF966003D8172 /* TextField.swift in Sources */,
+				963A72CE2AFA085400C5569C /* ContentViewController.swift in Sources */,
 				9642A48C2ACD9930003D8172 /* CreatingIrregularEventViewController.swift in Sources */,
 				9642A48A2ACD98F0003D8172 /* CreatingHabitViewController.swift in Sources */,
 				9642A49C2AD43F8C003D8172 /* DataStorege.swift in Sources */,

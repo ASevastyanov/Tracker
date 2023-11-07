@@ -97,7 +97,6 @@ final class CategoryViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.separatorColor = .backgroundDay
         tableView.layer.cornerRadius = 16
         tableView.backgroundColor = .none
         tableView.layer.masksToBounds = true
