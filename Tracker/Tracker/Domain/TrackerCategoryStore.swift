@@ -80,7 +80,20 @@ extension TrackerCategoryStore {
 // MARK: - Creating trackers in categories
 extension TrackerCategoryStore {
     //MARK: - Methods
-    func decodingCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory? {
+    func createCategoryAndTracker(tracker: Tracker, with titleCategory: String) throws {
+        guard let trackerCoreData = try trackerStore.addNewTracker(from: tracker) else {
+            throw StoreError.failedToWrite
+        }
+        guard let existingCategory = try fetchCategory(with: titleCategory) else {
+            throw StoreError.failedReading
+        }
+        var existingTrackers = existingCategory.trackers?.allObjects as? [TrackerCoreData] ?? []
+        existingTrackers.append(trackerCoreData)
+        existingCategory.trackers = NSSet(array: existingTrackers)
+        try context.save()
+    }
+    
+    func decodingCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
         guard let title = trackerCategoryCoreData.titleCategory else {
             throw StoreError.failedReading
         }
@@ -93,19 +106,6 @@ extension TrackerCategoryStore {
             }
             return nil
         })
-    }
-    
-    func createCategoryAndTracker(tracker: Tracker, with titleCategory: String) throws {
-        guard let trackerCoreData = try trackerStore.addNewTracker(from: tracker) else {
-            throw StoreError.failedToWrite
-        }
-        guard let existingCategory = try fetchCategory(with: titleCategory) else {
-            throw StoreError.failedReading
-        }
-        var existingTrackers = existingCategory.trackers?.allObjects as? [TrackerCoreData] ?? []
-        existingTrackers.append(trackerCoreData)
-        existingCategory.trackers = NSSet(array: existingTrackers)
-        try context.save()
     }
     
     //MARK: - Private methods
