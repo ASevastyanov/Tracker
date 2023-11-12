@@ -14,7 +14,7 @@ protocol ContentViewControllerDelegate: AnyObject {
 // MARK: - OnboardingViewController
 final class OnboardingViewController: UIPageViewController {
     private let dataStorage = DataStorege.shared
-    private let pageControl: UIPageControl = {
+    private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .blackDay
         pageControl.pageIndicatorTintColor = .backgroundDay
@@ -26,14 +26,14 @@ final class OnboardingViewController: UIPageViewController {
     
     lazy var pages: [UIViewController] = [
         {
-            let controller = ContentViewController()
+            let controller = OnboardingContentViewController()
             controller.backgroundImage = UIImage(named: "blueImage")
             controller.descriptionText = "Отслеживайте только то, что хотите"
             controller.delegate = self
             return controller
         }(),
         {
-            let controller = ContentViewController()
+            let controller = OnboardingContentViewController()
             controller.backgroundImage = UIImage(named: "redImage")
             controller.descriptionText = "Даже если это не литры воды и йога"
             controller.delegate = self

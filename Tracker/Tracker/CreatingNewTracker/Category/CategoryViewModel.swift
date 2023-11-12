@@ -5,13 +5,9 @@
 //  Created by Alexandr Seva on 09.11.2023.
 //
 
-import UIKit
+import Foundation
 
-//MARK: - CategoryViewDelegate
-protocol CategoryViewModelDelegate: AnyObject {
-    func updateData(nameCategory: String)
-}
-
+//MARK: - CategoryViewModel
 final class CategoryViewModel {
     @ObservableValue private(set) var categories: [TrackerCategory] = []
     
@@ -20,18 +16,8 @@ final class CategoryViewModel {
     private let dataSorege = DataStorege.shared
     private let trackerCategoryStore = TrackerCategoryStore()
     
-    func countCategries() -> Int {
-        if categories.count >= 0 {
-            return categories.count
-        } else {
-            return 0
-        }
-    }
-    
-    func addNewCategory() -> CreatingCategoryViewController {
-        let addNewCategoryViewController = CreatingCategoryViewController()
-        addNewCategoryViewController.delegate = self
-        return addNewCategoryViewController
+    func categoriesCount() -> Int {
+        return categories.count
     }
     
     func addingCategoryToCreate(_ indexPath: IndexPath){
@@ -46,33 +32,6 @@ final class CategoryViewModel {
     
     func loadIndexPathForCheckmark() -> IndexPath? {
         return dataSorege.loadIndexPathForCheckmark()
-    }
-}
-
-// MARK: - ConfigForCell
-extension CategoryViewModel {
-    func roundingForCellsInATable(cellIndex: Int) -> CACornerMask {
-        let numberOfLines = countCategries()
-        switch (cellIndex, numberOfLines) {
-        case (0, 1):
-            return [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        case (0, _):
-            return [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        case (_, _) where cellIndex == numberOfLines - 1:
-            return [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        default:
-            return []
-        }
-    }
-    
-    func separatorInsetForCell(index: Int) -> UIEdgeInsets {
-        let count = countCategries()
-        let quantityCategory = count - 1
-        if index == quantityCategory {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        } else {
-            return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        }
     }
 }
 
@@ -112,14 +71,6 @@ extension CategoryViewModel {
 // MARK: - TrackerStoreDelegate
 extension CategoryViewModel: TrackerCategoryStoreDelegate {
     func didUpdateData(in store: TrackerCategoryStore) {
-        try? fetchCategory()
-    }
-}
-
-// MARK: - CreateCategoryViewDelegate
-extension CategoryViewModel: CategoryViewModelDelegate {
-    func updateData(nameCategory: String) {
-        try? createCategory(nameOfCategory: nameCategory)
         try? fetchCategory()
     }
 }

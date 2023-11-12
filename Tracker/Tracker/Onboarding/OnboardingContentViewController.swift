@@ -8,13 +8,13 @@
 import UIKit
 
 //MARK: - UIViewController
-final class ContentViewController: UIViewController {
+final class OnboardingContentViewController: UIViewController {
     weak var delegate: ContentViewControllerDelegate?
     var descriptionText: String?
     var backgroundImage: UIImage?
     
     //MARK: - UiElements
-    private var label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 32)
@@ -34,7 +34,7 @@ final class ContentViewController: UIViewController {
         return button
     }()
     
-    private var backgroundImageView: UIImageView = {
+    private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true

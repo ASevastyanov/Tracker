@@ -7,6 +7,11 @@
 
 import UIKit
 
+//MARK: - CategoryViewDelegate
+protocol CategoryViewModelDelegate: AnyObject {
+    func updateData(nameCategory: String)
+}
+
 //MARK: - CategoryViewController
 final class CategoryViewController: UIViewController {
     var viewModel: CategoryViewModel?
@@ -36,7 +41,6 @@ final class CategoryViewController: UIViewController {
         let image = UIImageView(image: UIImage(named: "starIcon"))
         image.clipsToBounds = true
         image.isHidden = true
-        image.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -98,9 +102,10 @@ final class CategoryViewController: UIViewController {
     // MARK: - Actions
     @objc
     func actionsForButton() {
-        guard let createCategoryViewController = viewModel?.addNewCategory() else { return }
-        let navigationController = UINavigationController(rootViewController: createCategoryViewController)
-        present(navigationController, animated: true)
+        let createCategoryViewController = CreatingCategoryViewController()
+                createCategoryViewController.delegate = self
+                let navigationController = UINavigationController(rootViewController: createCategoryViewController)
+                present(navigationController, animated: true)
     }
     
     // MARK: - Private methods
@@ -193,20 +198,54 @@ extension CategoryViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count = viewModel?.categories.count else { return 0 }
+        guard let count = viewModel?.categoriesCount() else { return 0 }
         return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        guard let count = viewModel?.categoriesCount() else { return UITableViewCell() }
         cell.textLabel?.text = viewModel?.categories[indexPath.row].title
         cell.textLabel?.textColor = .blackDay
         cell.backgroundColor = .backgroundDay
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
-        cell.separatorInset = viewModel?.separatorInsetForCell(index: indexPath.row) ?? .zero
-        cell.layer.maskedCorners = viewModel?.roundingForCellsInATable(cellIndex: indexPath.row) ?? .layerMinXMinYCorner
+        cell.separatorInset = separatorInsetForCell(index: indexPath.row, numberOfLines: count)
+        cell.layer.maskedCorners = roundingForCellsInATable(cellIndex: indexPath.row, numberOfLines: count)
         cell.accessoryType = indexPath == viewModel?.loadIndexPathForCheckmark() ? .checkmark : .none
         return cell
+    }
+}
+
+// MARK: - ConfigForCell
+extension CategoryViewController {
+    func roundingForCellsInATable(cellIndex: Int, numberOfLines: Int) -> CACornerMask {
+        switch (cellIndex, numberOfLines) {
+        case (0, 1):
+            return [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        case (0, _):
+            return [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        case (_, _) where cellIndex == numberOfLines - 1:
+            return [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        default:
+            return []
+        }
+    }
+    
+    func separatorInsetForCell(index: Int, numberOfLines: Int) -> UIEdgeInsets {
+        let quantityCategory = numberOfLines - 1
+        if index == quantityCategory {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
+    }
+}
+
+// MARK: - CreateCategoryViewDelegate
+extension CategoryViewController: CategoryViewModelDelegate {
+    func updateData(nameCategory: String) {
+        try? viewModel?.createCategory(nameOfCategory: nameCategory)
+        try? viewModel?.fetchCategory()
     }
 }
