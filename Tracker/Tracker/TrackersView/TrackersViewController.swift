@@ -9,6 +9,7 @@ import UIKit
 
 //MARK: - TrackersViewController
 final class TrackersViewController: UIViewController {
+    weak var delegateStatistic: StatisticViewControllerProtocol?
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
     private var filteredCategoriesBySearch: [TrackerCategory] = []
@@ -148,6 +149,10 @@ final class TrackersViewController: UIViewController {
     }
     
     //MARK: - Private methods
+    private func statisticsListener() {
+        delegateStatistic?.completedTrackers = completedTrackers
+    }
+    
     private func checkingForActiveTrackers() {
         if !visibleCategories.isEmpty {
             placeholderView.isHidden = true
@@ -431,7 +436,7 @@ extension TrackersViewController {
     private func fetchRecord() throws {
         do {
             completedTrackers = try trackerRecordStore.fetchRecords()
-            print(completedTrackers)
+            statisticsListener()
         } catch {
             throw StoreError.failedReading
         }
@@ -441,6 +446,7 @@ extension TrackersViewController {
         do {
             try trackerRecordStore.addNewRecord(from: record)
             try fetchRecord()
+            statisticsListener()
         } catch {
             throw StoreError.failedToWrite
         }
@@ -452,6 +458,7 @@ extension TrackersViewController {
         do {
             try trackerRecordStore.deleteTrackerRecord(trackerRecord: record)
             try fetchRecord()
+            statisticsListener()
         } catch {
             throw StoreError.failedActoionDelete
         }

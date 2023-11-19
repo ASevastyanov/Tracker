@@ -113,16 +113,16 @@ final class CategoryViewController: UIViewController {
         tableView.reloadData()
         guard let category = viewModel?.categories else { return }
         if !category.isEmpty {
-            placeholderDisplaySwitch(isHiden: true)
+            placeholderDisplaySwitch(isHidden: true)
             configThereAreCategories()
         } else {
-            placeholderDisplaySwitch(isHiden: false)
+            placeholderDisplaySwitch(isHidden: false)
         }
     }
     
-    private func placeholderDisplaySwitch(isHiden: Bool) {
-        mainStarImageStub.isHidden = isHiden
-        descriptionPlaceholderStub.isHidden = isHiden
+    private func placeholderDisplaySwitch(isHidden: Bool) {
+        mainStarImageStub.isHidden = isHidden
+        descriptionPlaceholderStub.isHidden = isHidden
     }
     
     private func configViews() {

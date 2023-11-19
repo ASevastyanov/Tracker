@@ -8,11 +8,16 @@
 import UIKit
 import CoreData
 
-final class TrackerRecordStore {
+protocol TrackerRecordStoreDelegate: AnyObject {
+    func didUpdateData(in store: TrackerRecordStore)
+}
+
+final class TrackerRecordStore: NSObject {
+    weak var delegate: TrackerRecordStoreDelegate?
     private let context: NSManagedObjectContext
     
     // MARK: Initialisation
-    convenience init() {
+    convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         self.init(context: context)
     }
@@ -67,5 +72,12 @@ final class TrackerRecordStore {
         } catch {
             throw StoreError.failedReading
         }
+    }
+}
+
+//MARK: - NSFetchedResultsControllerDelegate
+extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.didUpdateData(in: self)
     }
 }
