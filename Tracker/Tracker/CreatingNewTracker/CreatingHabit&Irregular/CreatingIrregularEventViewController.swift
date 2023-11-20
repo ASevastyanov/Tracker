@@ -172,7 +172,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         guard let selectedColorIndexPath = isSelectedColor else { return }
         let emoji = emojis[selectedEmojiIndexPath.row]
         let color = colors[selectedColorIndexPath.row]
-        let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: emoji, dateEvents: nil)
+        let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: emoji, dateEvents: nil, isPinned: false)
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
         self.view.window?.rootViewController?.dismiss(animated: true) {

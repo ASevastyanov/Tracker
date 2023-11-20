@@ -19,6 +19,7 @@ final class TrackersViewController: UIViewController {
     private var completedTrackers: [TrackerRecord] = []
     private var selectedDate: Date = Date()
     private var selectedFilter: FilterName?
+    private var pinnedCategory = "Закрепленные"
     private var categories: [TrackerCategory] = [] {
         didSet {
             visibleCategories = categories
@@ -349,10 +350,13 @@ extension TrackersViewController: UICollectionViewDelegate {
         guard indexPaths.count > 0 else { return nil }
         let indexPath = indexPaths[0]
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackerCell", for: indexPath) as? TrackerCell else { return nil }
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+        
         let contextMenu = UIMenu(
             children: [
-                UIAction(title: "Закрепить") { [weak self] _ in
+                UIAction(title: tracker.isPinned ? "Открепить" : "Закрепить" ) { [weak self] _ in
                     guard self != nil else { return }
+                    self?.updateStatusIsPinned(tracker: tracker)
                 },
                 UIAction(title: "Редактировать") { [weak self] _ in
                     guard self != nil else { return }
@@ -518,6 +522,7 @@ extension TrackersViewController {
             categories = try coreDataCategories.compactMap { coreDataCategory in
                 return try trackerCategoryStore.decodingCategory(from: coreDataCategory)
             }
+            visiblePinnedCategory()
         } catch {
             throw StoreError.failedReading
         }
@@ -620,5 +625,37 @@ extension TrackersViewController {
         alert.addAction(deleteButton)
         alert.addAction(cencelButton)
         self.present(alert, animated: true)
+    }
+}
+
+// MARK: - pinnedTrackers
+extension TrackersViewController {
+    private func visiblePinnedCategory(){
+        let allTrackersIsPinned = visibleCategories.flatMap { $0.trackers.filter { $0.isPinned } }
+        categories = categories.map { category in
+            var mutableCategory = category
+            mutableCategory.trackers = category.trackers.filter { !$0.isPinned }
+            return mutableCategory
+        }
+        let newCategory = TrackerCategory(title: pinnedCategory, trackers: allTrackersIsPinned)
+        if let index = categories.firstIndex(where: { $0.title == newCategory.title }) {
+            categories[index].trackers += newCategory.trackers
+        } else {
+            categories.insert(newCategory, at: 0)
+        }
+    }
+    
+    private func updateStatusIsPinned(tracker: Tracker){
+        let updateTracker = Tracker(
+            id: tracker.id,
+            name: tracker.name,
+            color: tracker.color,
+            emoji: tracker.emoji,
+            dateEvents: tracker.dateEvents,
+            isPinned: tracker.isPinned ? false : true
+        )
+        try? trackerStore.updateTracker(with: updateTracker)
+        try? fetchCategory()
+        updateVisibleCategories()
     }
 }

@@ -178,7 +178,7 @@ final class CreatingHabitViewController: UIViewController {
         guard let selectedColorIndexPath = isSelectedColor else { return }
         let emoji = emojis[selectedEmojiIndexPath.row]
         let color = colors[selectedColorIndexPath.row]
-        let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: emoji, dateEvents: dateEvents)
+        let newTracker = Tracker(id: UUID(), name: text, color: color, emoji: emoji, dateEvents: dateEvents, isPinned: false)
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
         self.view.window?.rootViewController?.dismiss(animated: true) {
