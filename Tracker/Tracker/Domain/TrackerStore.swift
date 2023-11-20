@@ -76,4 +76,20 @@ final class TrackerStore {
             dateEvents: trackersCoreData.dateEvents as? [Int]
         )
     }
+    
+    func deleteTrackers(tracker: Tracker) throws {let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        do {
+            let tracker = try context.fetch(fetchRequest)
+            
+            if let trackerToDelete = tracker.first {
+                context.delete(trackerToDelete)
+                try context.save()
+            } else {
+                throw StoreError.failedGettingTitle
+            }
+        } catch {
+            throw StoreError.failedActoionDelete
+        }
+    }
 }

@@ -12,6 +12,7 @@ final class TrackersViewController: UIViewController {
     weak var delegateStatistic: StatisticViewControllerProtocol?
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
+    private let trackerStore = TrackerStore()
     private var filteredCategoriesBySearch: [TrackerCategory] = []
     private var filteredCategoriesByDate: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -341,6 +342,51 @@ extension TrackersViewController: UICollectionViewDelegate {
         view.titleLabel.text = visibleCategories[indexPath.section].title
         return view
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        guard indexPaths.count > 0 else { return nil }
+        let indexPath = indexPaths[0]
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackerCell", for: indexPath) as? TrackerCell else { return nil }
+        let contextMenu = UIMenu(
+            children: [
+                UIAction(title: "Закрепить") { [weak self] _ in
+                    guard self != nil else { return }
+                },
+                UIAction(title: "Редактировать") { [weak self] _ in
+                    guard self != nil else { return }
+                },
+                UIAction(title: "Удалить", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .destructive) {[weak self] _ in
+                    guard self != nil else { return }
+                    self?.showDeleteAlert(indexPath: indexPath)
+                }
+            ])
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            return contextMenu
+        }
+        return configuration
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfiguration configuration: UIContextMenuConfiguration,
+                        highlightPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TrackerCell else { return nil }
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        let view = cell.backgroundCellView
+        return UITargetedPreview(view: view, parameters: parameters)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfiguration configuration: UIContextMenuConfiguration,
+                        dismissalPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TrackerCell else { return nil }
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        let view = cell.backgroundCellView
+        return UITargetedPreview(view: view, parameters: parameters)
+    }
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
@@ -484,6 +530,16 @@ extension TrackersViewController {
             throw StoreError.failedToWrite
         }
     }
+    
+    private func deleteTrackerInCategory(atIndex index: IndexPath) throws {
+        let tracker = visibleCategories[index.section].trackers[index.row]
+        do {
+            try trackerStore.deleteTrackers(tracker: tracker)
+            try fetchCategory()
+        } catch {
+            throw StoreError.failedActoionDelete
+        }
+    }
 }
 
 // MARK: - RecordStore
@@ -509,7 +565,6 @@ extension TrackersViewController {
     
     private func deleteRecord(atIndex index: Int) throws {
         let record = completedTrackers[index]
-        print("record ---- \(record)")
         do {
             try trackerRecordStore.deleteTrackerRecord(trackerRecord: record)
             try fetchRecord()
@@ -545,5 +600,25 @@ extension TrackersViewController: FilterViewControllerProtocol {
             filterButton.setTitleColor(.redYP, for: .normal)
         }
         updateVisibleCategories()
+    }
+}
+
+// MARK: - ConfigContextMenu
+extension TrackersViewController {
+    private func showDeleteAlert(indexPath: IndexPath) {
+        let alert = UIAlertController(title: nil, message: "Уверены что хотите удалить трекер?", preferredStyle: .actionSheet)
+        let deleteButton = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            do {
+                try self.deleteTrackerInCategory(atIndex: indexPath)
+                self.updateVisibleCategories()
+            } catch {
+                print("Error deleting tracker: \(error)")
+            }
+        }
+        let cencelButton = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(deleteButton)
+        alert.addAction(cencelButton)
+        self.present(alert, animated: true)
     }
 }
