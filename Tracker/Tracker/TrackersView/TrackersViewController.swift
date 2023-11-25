@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol EditTrackerDelegate: AnyObject {
+    func trackerUpdate(_ tracker: Tracker, category: String)
+}
+
 //MARK: - TrackersViewController
 final class TrackersViewController: UIViewController {
     weak var delegateStatistic: StatisticViewControllerProtocol?
@@ -360,6 +364,7 @@ extension TrackersViewController: UICollectionViewDelegate {
                 },
                 UIAction(title: "Редактировать") { [weak self] _ in
                     guard self != nil else { return }
+                    self?.editingTrackers(indexPath: indexPath)
                 },
                 UIAction(title: "Удалить", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .destructive) {[weak self] _ in
                     guard self != nil else { return }
@@ -657,5 +662,37 @@ extension TrackersViewController {
         try? trackerStore.updateTracker(with: updateTracker)
         try? fetchCategory()
         updateVisibleCategories()
+    }
+}
+
+// MARK: - editingTrackers
+extension TrackersViewController: EditTrackerDelegate {
+    func trackerUpdate(_ tracker: Tracker, category: String) {
+        try? trackerStore.updateTracker(with: tracker)
+        try? fetchCategory()
+        updateVisibleCategories()
+    }
+    
+    private func editingTrackers(indexPath: IndexPath) {
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+        let category = visibleCategories[indexPath.section].title
+        let daysCount = completedTrackers.filter { $0.id == tracker.id }.count
+        if tracker.dateEvents != nil {
+            let createHabitViewController = CreatingHabitViewController()
+            let navigationController = UINavigationController(rootViewController: createHabitViewController)
+            createHabitViewController.delegateEdit = self
+            createHabitViewController.numberOfDaysCompletedHabit = daysCount
+            createHabitViewController.editCategoryHabit = category
+            createHabitViewController.editTrackerHabit = tracker
+            present(navigationController, animated: true)
+        } else {
+            let createIrregularEventViewController = CreatingIrregularEventViewController()
+            let navigationController = UINavigationController(rootViewController: createIrregularEventViewController)
+            createIrregularEventViewController.delegateEdit = self
+            createIrregularEventViewController.numberOfDaysCompletedIrregular = daysCount
+            createIrregularEventViewController.editCategoryIrregular = category
+            createIrregularEventViewController.editTrackerIrregular = tracker
+            present(navigationController, animated: true)
+        }
     }
 }
