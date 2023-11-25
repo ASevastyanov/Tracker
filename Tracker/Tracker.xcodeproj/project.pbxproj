@@ -35,11 +35,9 @@
 		966EECA42B05DDEE00CE4324 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966EECA32B05DDEE00CE4324 /* StatisticsViewModel.swift */; };
 		966EECA62B0610EF00CE4324 /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966EECA52B0610EF00CE4324 /* StatisticCell.swift */; };
 		966EECA82B06146800CE4324 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966EECA72B06146800CE4324 /* Statistics.swift */; };
-		96AC404A2B122A0500792EA0 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 96AC40492B122A0500792EA0 /* InlineSnapshotTesting */; };
-		96AC404C2B122A0500792EA0 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 96AC404B2B122A0500792EA0 /* SnapshotTesting */; };
 		96AC40592B122CAC00792EA0 /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC40582B122CAC00792EA0 /* TrackerTests.swift */; };
-		96AC40612B122D0100792EA0 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 96AC40602B122D0100792EA0 /* SnapshotTesting */; };
-		96AC40632B122D0D00792EA0 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 96AC40622B122D0D00792EA0 /* InlineSnapshotTesting */; };
+		96C706F32B123FED00144ADE /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 96C706F22B123FED00144ADE /* SnapshotTesting */; };
+		96C706F52B123FF000144ADE /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 96C706F42B123FF000144ADE /* InlineSnapshotTesting */; };
 		96C858F72AC985F0000CBA0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858F62AC985F0000CBA0E /* AppDelegate.swift */; };
 		96C858F92AC985F0000CBA0E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858F82AC985F0000CBA0E /* SceneDelegate.swift */; };
 		96C858FB2AC985F0000CBA0E /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C858FA2AC985F0000CBA0E /* TrackersViewController.swift */; };
@@ -122,8 +120,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96AC40632B122D0D00792EA0 /* InlineSnapshotTesting in Frameworks */,
-				96AC40612B122D0100792EA0 /* SnapshotTesting in Frameworks */,
+				96C706F52B123FF000144ADE /* InlineSnapshotTesting in Frameworks */,
+				96C706F32B123FED00144ADE /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,8 +129,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96AC404A2B122A0500792EA0 /* InlineSnapshotTesting in Frameworks */,
-				96AC404C2B122A0500792EA0 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,8 +366,8 @@
 			);
 			name = TrackerTests;
 			packageProductDependencies = (
-				96AC40602B122D0100792EA0 /* SnapshotTesting */,
-				96AC40622B122D0D00792EA0 /* InlineSnapshotTesting */,
+				96C706F22B123FED00144ADE /* SnapshotTesting */,
+				96C706F42B123FF000144ADE /* InlineSnapshotTesting */,
 			);
 			productName = TrackerTests;
 			productReference = 96AC40562B122CAC00792EA0 /* TrackerTests.xctest */;
@@ -391,8 +387,6 @@
 			);
 			name = Tracker;
 			packageProductDependencies = (
-				96AC40492B122A0500792EA0 /* InlineSnapshotTesting */,
-				96AC404B2B122A0500792EA0 /* SnapshotTesting */,
 			);
 			productName = Tracker;
 			productReference = 96C858F32AC985F0000CBA0E /* Tracker.app */;
@@ -427,7 +421,7 @@
 			);
 			mainGroup = 96C858EA2AC985F0000CBA0E;
 			packageReferences = (
-				96AC40482B122A0500792EA0 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				96C706F12B123FDD00144ADE /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 96C858F42AC985F0000CBA0E /* Products */;
 			projectDirPath = "";
@@ -545,13 +539,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8ZBXUD522V;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.TrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tracker";
 			};
 			name = Debug;
@@ -564,13 +561,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8ZBXUD522V;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.practicum.TrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tracker";
 			};
 			name = Release;
@@ -789,7 +789,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		96AC40482B122A0500792EA0 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+		96C706F12B123FDD00144ADE /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
 			requirement = {
@@ -800,24 +800,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		96AC40492B122A0500792EA0 /* InlineSnapshotTesting */ = {
+		96C706F22B123FED00144ADE /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 96AC40482B122A0500792EA0 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
-			productName = InlineSnapshotTesting;
-		};
-		96AC404B2B122A0500792EA0 /* SnapshotTesting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 96AC40482B122A0500792EA0 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			package = 96C706F12B123FDD00144ADE /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
 		};
-		96AC40602B122D0100792EA0 /* SnapshotTesting */ = {
+		96C706F42B123FF000144ADE /* InlineSnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 96AC40482B122A0500792EA0 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
-			productName = SnapshotTesting;
-		};
-		96AC40622B122D0D00792EA0 /* InlineSnapshotTesting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 96AC40482B122A0500792EA0 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			package = 96C706F12B123FDD00144ADE /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = InlineSnapshotTesting;
 		};
 /* End XCSwiftPackageProductDependency section */

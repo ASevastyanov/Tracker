@@ -265,7 +265,7 @@ final class TrackersViewController: UIViewController {
         let datePickerConstraint = NSLayoutConstraint(item: datePicker, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0)
         navigationItem.leftBarButtonItem = addTrackerBarButtonItem
         navigationItem.rightBarButtonItems = [datePickerBarButtonItem]
-        navigationBar.barTintColor = UIColor.whiteDay
+        navigationBar.barTintColor = .none
         navigationBar.shadowImage = UIImage()
         navigationBar.setItems([navigationItem], animated: false)
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
@@ -353,7 +353,6 @@ extension TrackersViewController: UICollectionViewDelegate {
                         point: CGPoint) -> UIContextMenuConfiguration? {
         guard indexPaths.count > 0 else { return nil }
         let indexPath = indexPaths[0]
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackerCell", for: indexPath) as? TrackerCell else { return nil }
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         
         let contextMenu = UIMenu(

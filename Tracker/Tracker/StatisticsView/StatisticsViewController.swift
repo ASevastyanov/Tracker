@@ -48,7 +48,7 @@ class StatisticsViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .none
         collectionView.register(StatisticsCell.self, forCellWithReuseIdentifier: "StatisticsCell")
         return collectionView
     }()
