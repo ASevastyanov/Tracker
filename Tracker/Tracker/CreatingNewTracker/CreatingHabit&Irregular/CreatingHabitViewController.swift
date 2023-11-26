@@ -167,6 +167,12 @@ final class CreatingHabitViewController: UIViewController {
         configConstraints()
         clearDataStorege()
         trackerEditing()
+        AnalyticsService.report(event: .open, params: ["Screen" : "CreatingHabit"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        AnalyticsService.report(event: .close, params: ["Screen" : "CreatingHabit"])
     }
     
     // MARK: - Actions
@@ -183,6 +189,7 @@ final class CreatingHabitViewController: UIViewController {
     @objc
     private func cancelCreation() {
         dismiss(animated: true)
+        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.cancelCreation.rawValue])
     }
     
     @objc
@@ -190,6 +197,7 @@ final class CreatingHabitViewController: UIViewController {
         guard let newTracker = collectingDataForTheTracker(newTracker: true) else { return }
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
+        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.addTracker.rawValue])
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
     }
@@ -199,6 +207,7 @@ final class CreatingHabitViewController: UIViewController {
         guard let newTracker = collectingDataForTheTracker(newTracker: false) else { return }
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegateEdit?.trackerUpdate(newTracker, category: categoryTracker)
+        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.updateTracker.rawValue])
         dismiss(animated: true)
     }
     

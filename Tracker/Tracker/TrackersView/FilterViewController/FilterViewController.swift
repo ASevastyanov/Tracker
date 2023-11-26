@@ -53,6 +53,12 @@ final class FilterViewController: UIViewController {
         super.viewDidLoad()
         configViews()
         configConstraints()
+        AnalyticsService.report(event: .open, params: ["Screen" : "FilterView"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        AnalyticsService.report(event: .close, params: ["Screen" : "FilterView"])
     }
     
     //MARK: - Private methods
@@ -104,6 +110,7 @@ extension FilterViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let filter = filters[indexPath.row]
         delegate?.filterSelected(filter: filter)
+        AnalyticsService.report(event: .click, params: ["Screen" : "\(filter)"])
         dismiss(animated: true)
     }
 }

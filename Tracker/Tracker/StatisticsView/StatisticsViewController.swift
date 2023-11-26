@@ -65,6 +65,12 @@ class StatisticsViewController: UIViewController {
         configViews()
         configConstraints()
         try? viewModel?.fetchStatistics()
+        AnalyticsService.report(event: .open, params: ["Screen" : "Statistics"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        AnalyticsService.report(event: .close, params: ["Screen" : "Statistics"])
     }
     
     // MARK: Binding

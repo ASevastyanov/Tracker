@@ -161,6 +161,12 @@ final class CreatingIrregularEventViewController: UIViewController {
         configViews()
         configConstraints()
         trackerEditing()
+        AnalyticsService.report(event: .open, params: ["Screen" : "CreatingIrregularEvent"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        AnalyticsService.report(event: .close, params: ["Screen" : "CreatingIrregularEvent"])
     }
     
     // MARK: - Actions
@@ -176,6 +182,7 @@ final class CreatingIrregularEventViewController: UIViewController {
     
     @objc
     private func cancelCreation() {
+        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.cancelCreation.rawValue])
         dismiss(animated: true)
     }
     
@@ -184,6 +191,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         guard let newTracker = collectingDataForTheTracker(newTracker: true) else { return }
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
+        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.addTracker.rawValue])
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
     }
@@ -193,6 +201,7 @@ final class CreatingIrregularEventViewController: UIViewController {
         guard let newTracker = collectingDataForTheTracker(newTracker: false) else { return }
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegateEdit?.trackerUpdate(newTracker, category: categoryTracker)
+        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.updateTracker.rawValue])
         dismiss(animated: true)
     }
     

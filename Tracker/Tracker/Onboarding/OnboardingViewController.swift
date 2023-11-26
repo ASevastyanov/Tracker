@@ -55,6 +55,7 @@ final class OnboardingViewController: UIPageViewController {
         super.viewDidLoad()
         configViews()
         configConstraints()
+        AnalyticsService.report(event: .open, params: ["Screen" : "Onboarding"])
     }
     
     // MARK: Actions
