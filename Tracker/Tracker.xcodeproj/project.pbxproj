@@ -10,6 +10,8 @@
 		0A462AC3ACFEC231A360DC0D /* Pods_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E99FD0E3C1175237F827247D /* Pods_Tracker.framework */; };
 		9632E3DE2B135FFC005974CF /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632E3DD2B135FFC005974CF /* AnalyticsService.swift */; };
 		9632E3E02B13606C005974CF /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632E3DF2B13606C005974CF /* Events.swift */; };
+		9632E3EA2B1388A4005974CF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9632E3EC2B1388A4005974CF /* Localizable.strings */; };
+		9632E3ED2B1388BB005974CF /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 9632E3EF2B1388BB005974CF /* Localizable.stringsdict */; };
 		963A72CC2AF9FECD00C5569C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963A72CB2AF9FECD00C5569C /* OnboardingViewController.swift */; };
 		963A72CE2AFA085400C5569C /* OnboardingContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963A72CD2AFA085400C5569C /* OnboardingContentViewController.swift */; };
 		963DF95D2AE2EA8400DE56F5 /* CreatingTrackersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */; };
@@ -73,6 +75,12 @@
 		7182DB0DC8BE388425D13588 /* Pods-Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		9632E3DD2B135FFC005974CF /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		9632E3DF2B13606C005974CF /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		9632E3E52B138492005974CF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		9632E3E72B1384AA005974CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		9632E3EB2B1388A4005974CF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9632E3EE2B1388BB005974CF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		9632E3F02B1388C4005974CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9632E3F12B1388C8005974CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		963A72CB2AF9FECD00C5569C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		963A72CD2AFA085400C5569C /* OnboardingContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentViewController.swift; sourceTree = "<group>"; };
 		963DF95C2AE2EA8400DE56F5 /* CreatingTrackersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingTrackersModel.swift; sourceTree = "<group>"; };
@@ -151,6 +159,15 @@
 				9632E3DF2B13606C005974CF /* Events.swift */,
 			);
 			path = AnalyticsService;
+			sourceTree = "<group>";
+		};
+		9632E3E12B137DE9005974CF /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				9632E3EC2B1388A4005974CF /* Localizable.strings */,
+				9632E3EF2B1388BB005974CF /* Localizable.stringsdict */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		963A72CA2AF92E1000C5569C /* Onboarding */ = {
@@ -296,6 +313,7 @@
 		96C8590A2AC995E4000CBA0E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9632E3E12B137DE9005974CF /* Localization */,
 				96C859012AC985F1000CBA0E /* LaunchScreen.storyboard */,
 				96C858FF2AC985F1000CBA0E /* Assets.xcassets */,
 				96C859042AC985F1000CBA0E /* Info.plist */,
@@ -443,11 +461,12 @@
 			};
 			buildConfigurationList = 96C858EE2AC985F0000CBA0E /* Build configuration list for PBXProject "Tracker" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				ru,
+				en,
 			);
 			mainGroup = 96C858EA2AC985F0000CBA0E;
 			packageReferences = (
@@ -476,6 +495,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				96C859032AC985F1000CBA0E /* LaunchScreen.storyboard in Resources */,
+				9632E3ED2B1388BB005974CF /* Localizable.stringsdict in Resources */,
+				9632E3EA2B1388A4005974CF /* Localizable.strings in Resources */,
 				96C859002AC985F1000CBA0E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,10 +615,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		9632E3EC2B1388A4005974CF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9632E3EB2B1388A4005974CF /* ru */,
+				9632E3F02B1388C4005974CF /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		9632E3EF2B1388BB005974CF /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9632E3EE2B1388BB005974CF /* ru */,
+				9632E3F12B1388C8005974CF /* en */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
 		96C859012AC985F1000CBA0E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				96C859022AC985F1000CBA0E /* Base */,
+				9632E3E52B138492005974CF /* ru */,
+				9632E3E72B1384AA005974CF /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -654,6 +695,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -717,6 +759,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

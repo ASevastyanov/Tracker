@@ -111,18 +111,8 @@ final class TrackerCell: UICollectionViewCell {
     
     //MARK: - Private methods
     private func formatDaysText(forDays days: Int) -> String {
-        if days > 10 && days < 20 {
-            return "\(days) дней"
-        } else {
-            switch days % 10 {
-            case 1:
-                return "\(days) день"
-            case 2, 3, 4:
-                return "\(days) дня"
-            default:
-                return "\(days) дней"
-            }
-        }
+        let daysCounter = String.localizedStringWithFormat(NSLocalizedString("numberOfDay", comment: "numberOfDay"), days)
+        return daysCounter
     }
     
     private func updatePlusButton(trackerCompleted: Bool) {

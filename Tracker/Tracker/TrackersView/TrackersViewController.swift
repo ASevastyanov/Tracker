@@ -23,7 +23,7 @@ final class TrackersViewController: UIViewController {
     private var completedTrackers: [TrackerRecord] = []
     private var selectedDate: Date = Date()
     private var selectedFilter: FilterName?
-    private var pinnedCategory = "Закрепленные"
+    private var pinnedCategory = NSLocalizedString("pinnedTrackers", comment: "pinnedTrackers")
     private var categories: [TrackerCategory] = [] {
         didSet {
             visibleCategories = categories
@@ -76,7 +76,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var trackerLabel: UILabel = {
         let trackerLabel = UILabel()
-        trackerLabel.text = "Трекеры"
+        trackerLabel.text = NSLocalizedString("trackerTitle", comment: "trackerTitle")
         trackerLabel.textColor = .blackDay
         trackerLabel.font = .boldSystemFont(ofSize: 34)
         trackerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,7 @@ final class TrackersViewController: UIViewController {
         trackersSearchBar.searchBarStyle = .minimal
         trackersSearchBar.translatesAutoresizingMaskIntoConstraints = false
         trackersSearchBar.barTintColor = .gray
-        trackersSearchBar.placeholder = "Поиск"
+        trackersSearchBar.placeholder = NSLocalizedString("search", comment: "search")
         trackersSearchBar.delegate = self
         return trackersSearchBar
     }()
@@ -129,7 +129,8 @@ final class TrackersViewController: UIViewController {
     
     private lazy var filterButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Фильтры", for: .normal)
+        let textTitle = NSLocalizedString("filterButton", comment: "filterButton")
+        button.setTitle(textTitle, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         button.setTitleColor(.whiteDay, for: .normal)
         button.backgroundColor = .blueYP
@@ -210,10 +211,10 @@ final class TrackersViewController: UIViewController {
     private func configPlaceholderStub() {
         let searchText = searchBar.text ?? ""
         if visibleCategories.isEmpty && !categories.isEmpty || !searchText.isEmpty{
-            searchMainPlaceholderStub.text = "Ничего не найдено"
+            searchMainPlaceholderStub.text = NSLocalizedString("searchErrorStub", comment: "searchErrorStub")
             mainImageStub.image = UIImage(named: "nothingFoundIcon")
         } else {
-            searchMainPlaceholderStub.text = "Что будем отслеживать?"
+            searchMainPlaceholderStub.text = NSLocalizedString("emptyErrorStub", comment: "emptyErrorStub")
             mainImageStub.image = UIImage(named: "starIcon")
         }
     }
@@ -290,7 +291,7 @@ final class TrackersViewController: UIViewController {
     
     private func configViews() {
         _ = self.skipKeyboard
-        searchBar.setValue("Отменить", forKey: "cancelButtonText")
+        searchBar.setValue(NSLocalizedString("cancel", comment: "cancel"), forKey: "cancelButtonText")
         view.backgroundColor = .whiteDay
         view.addSubview(navigationBar)
         view.addSubview(trackerLabel)
@@ -363,20 +364,21 @@ extension TrackersViewController: UICollectionViewDelegate {
         guard indexPaths.count > 0 else { return nil }
         let indexPath = indexPaths[0]
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+        let titleTextisPinned = tracker.isPinned ? NSLocalizedString("unpinTracker", comment: "unpinTracker") : NSLocalizedString("pinTracker", comment: "pinTracker")
         
         let contextMenu = UIMenu(
             children: [
-                UIAction(title: tracker.isPinned ? "Открепить" : "Закрепить" ) { [weak self] _ in
+                UIAction(title: titleTextisPinned ) { [weak self] _ in
                     guard self != nil else { return }
                     self?.updateStatusIsPinned(tracker: tracker)
                     AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : tracker.isPinned ? Items.pinned.rawValue : Items.unpinned.rawValue])
                 },
-                UIAction(title: "Редактировать") { [weak self] _ in
+                UIAction(title: NSLocalizedString("editTracker", comment: "editTracker")) { [weak self] _ in
                     guard self != nil else { return }
                     self?.editingTrackers(indexPath: indexPath)
                     AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.edit.rawValue])
                 },
-                UIAction(title: "Удалить", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .destructive) {[weak self] _ in
+                UIAction(title: NSLocalizedString("deleteTracker", comment: "deleteTracker"), image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .destructive) {[weak self] _ in
                     guard self != nil else { return }
                     self?.showDeleteAlert(indexPath: indexPath)
                     AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.delete.rawValue])
@@ -629,8 +631,8 @@ extension TrackersViewController: FilterViewControllerProtocol {
 // MARK: - ConfigContextMenu
 extension TrackersViewController {
     private func showDeleteAlert(indexPath: IndexPath) {
-        let alert = UIAlertController(title: nil, message: "Уверены что хотите удалить трекер?", preferredStyle: .actionSheet)
-        let deleteButton = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("showDeleteAlert", comment: "showDeleteAlert"), preferredStyle: .actionSheet)
+        let deleteButton = UIAlertAction(title: NSLocalizedString("deleteTracker", comment: "deleteTracker"), style: .destructive) { [weak self] _ in
             guard let self else { return }
             do {
                 try self.deleteTrackerInCategory(atIndex: indexPath)
@@ -639,7 +641,7 @@ extension TrackersViewController {
                 print("Error deleting tracker: \(error)")
             }
         }
-        let cencelButton = UIAlertAction(title: "Отменить", style: .cancel)
+        let cencelButton = UIAlertAction(title: NSLocalizedString("cancel", comment: "cancel"), style: .cancel)
         alert.addAction(deleteButton)
         alert.addAction(cencelButton)
         self.present(alert, animated: true)
