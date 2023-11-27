@@ -23,6 +23,7 @@ final class CreatingHabitViewController: UIViewController {
     var numberOfDaysCompletedHabit: Int?
     var editCategoryHabit: String?
     var editTrackerHabit: Tracker?
+    private let analyticsService = AnalyticsService()
     private let dataSorege = DataStorege.shared
     private let characterLimitInField = 38
     private var dateEvents = [Int]()
@@ -167,12 +168,12 @@ final class CreatingHabitViewController: UIViewController {
         configConstraints()
         clearDataStorege()
         trackerEditing()
-        AnalyticsService.report(event: .open, params: ["Screen" : "CreatingHabit"])
+        analyticsService.report(event: .open, params: ["Screen" : "CreatingHabit"])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        AnalyticsService.report(event: .close, params: ["Screen" : "CreatingHabit"])
+        analyticsService.report(event: .close, params: ["Screen" : "CreatingHabit"])
     }
     
     // MARK: - Actions
@@ -189,7 +190,7 @@ final class CreatingHabitViewController: UIViewController {
     @objc
     private func cancelCreation() {
         dismiss(animated: true)
-        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.cancelCreation.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.cancelCreation.rawValue])
     }
     
     @objc
@@ -197,7 +198,7 @@ final class CreatingHabitViewController: UIViewController {
         guard let newTracker = collectingDataForTheTracker(newTracker: true) else { return }
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegate?.didCreateTracker(newTracker, category: categoryTracker)
-        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.addTracker.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.addTracker.rawValue])
         self.view.window?.rootViewController?.dismiss(animated: true) {
         }
     }
@@ -207,15 +208,15 @@ final class CreatingHabitViewController: UIViewController {
         guard let newTracker = collectingDataForTheTracker(newTracker: false) else { return }
         let categoryTracker = creatingTrackersModel[0].subTitleLabel
         delegateEdit?.trackerUpdate(newTracker, category: categoryTracker)
-        AnalyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.updateTracker.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "CreatingHabit", "Item" : Items.updateTracker.rawValue])
         dismiss(animated: true)
     }
     
     //MARK: - Private methods
     private func collectingDataForTheTracker(newTracker: Bool) -> Tracker? {
-        guard let text = nameTrackerTextField.text else { return nil }
-        guard let selectedEmojiIndexPath = isSelectedEmoji else { return nil }
-        guard let selectedColorIndexPath = isSelectedColor else { return nil }
+        guard let text = nameTrackerTextField.text,
+              let selectedEmojiIndexPath = isSelectedEmoji,
+              let selectedColorIndexPath = isSelectedColor else { return nil }
         let emoji = emojis[selectedEmojiIndexPath.row]
         let color = colors[selectedColorIndexPath.row]
         if newTracker {

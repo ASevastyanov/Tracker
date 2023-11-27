@@ -23,6 +23,7 @@ final class FilterViewController: UIViewController {
     var selectedFilter: FilterName?
     weak var delegate: FilterViewControllerProtocol?
     private let filters: [FilterName] = FilterName.allCases
+    private let analyticsService = AnalyticsService()
     
     //MARK: - UiElements
     private lazy var filterLabel: UILabel = {
@@ -53,12 +54,12 @@ final class FilterViewController: UIViewController {
         super.viewDidLoad()
         configViews()
         configConstraints()
-        AnalyticsService.report(event: .open, params: ["Screen" : "FilterView"])
+        analyticsService.report(event: .open, params: ["Screen" : "FilterView"])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        AnalyticsService.report(event: .close, params: ["Screen" : "FilterView"])
+        analyticsService.report(event: .close, params: ["Screen" : "FilterView"])
     }
     
     //MARK: - Private methods
@@ -110,7 +111,7 @@ extension FilterViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let filter = filters[indexPath.row]
         delegate?.filterSelected(filter: filter)
-        AnalyticsService.report(event: .click, params: ["Screen" : "\(filter)"])
+        analyticsService.report(event: .click, params: ["Screen" : "\(filter)"])
         dismiss(animated: true)
     }
 }

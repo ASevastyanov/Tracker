@@ -8,8 +8,9 @@
 import UIKit
 
 //MARK: - UIViewController
-class StatisticsViewController: UIViewController {
+final class StatisticsViewController: UIViewController {
     var viewModel: StatisticsViewModel?
+    private let analyticsService = AnalyticsService()
     
     //MARK: - UiElements
     private lazy var trackerLabel: UILabel = {
@@ -65,12 +66,12 @@ class StatisticsViewController: UIViewController {
         configViews()
         configConstraints()
         try? viewModel?.fetchStatistics()
-        AnalyticsService.report(event: .open, params: ["Screen" : "Statistics"])
+        analyticsService.report(event: .open, params: ["Screen" : "Statistics"])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        AnalyticsService.report(event: .close, params: ["Screen" : "Statistics"])
+        analyticsService.report(event: .close, params: ["Screen" : "Statistics"])
     }
     
     // MARK: Binding

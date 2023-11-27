@@ -17,6 +17,7 @@ final class TrackersViewController: UIViewController {
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
     private let trackerStore = TrackerStore()
+    private let analyticsService = AnalyticsService()
     private var filteredCategoriesBySearch: [TrackerCategory] = []
     private var filteredCategoriesByDate: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -151,12 +152,12 @@ final class TrackersViewController: UIViewController {
         checkingForActiveTrackers()
         updateVisibleCategories()
         try? fetchRecord()
-        AnalyticsService.report(event: .open, params: ["Screen" : "Main"])
+        analyticsService.report(event: .open, params: ["Screen" : "Main"])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        AnalyticsService.report(event: .close, params: ["Screen" : "Main"])
+        analyticsService.report(event: .close, params: ["Screen" : "Main"])
     }
     
     // MARK: - Actions
@@ -165,7 +166,7 @@ final class TrackersViewController: UIViewController {
         let сreatingNewTrackerViewController = CreatingNewTrackerViewController()
         сreatingNewTrackerViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: сreatingNewTrackerViewController)
-        AnalyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.addTracker.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.addTracker.rawValue])
         present(navigationController, animated: true)
     }
     
@@ -174,7 +175,7 @@ final class TrackersViewController: UIViewController {
         selectedDate = datePicker.date
         updateVisibleCategories()
         dismiss(animated: true)
-        AnalyticsService.report(event: .click, params: ["Screen" : "DatePicker", "Item" : Items.filterByDate.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "DatePicker", "Item" : Items.filterByDate.rawValue])
     }
     
     @objc
@@ -184,7 +185,7 @@ final class TrackersViewController: UIViewController {
         filterViewController.selectedFilter = selectedFilter
         let navigationController = UINavigationController(rootViewController: filterViewController)
         present(navigationController, animated: true)
-        AnalyticsService.report(event: .click, params: ["Screen" : "FilterView", "Item" : Items.filter.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "FilterView", "Item" : Items.filter.rawValue])
     }
     
     //MARK: - Private methods
@@ -371,17 +372,17 @@ extension TrackersViewController: UICollectionViewDelegate {
                 UIAction(title: titleTextisPinned ) { [weak self] _ in
                     guard self != nil else { return }
                     self?.updateStatusIsPinned(tracker: tracker)
-                    AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : tracker.isPinned ? Items.pinned.rawValue : Items.unpinned.rawValue])
+                    self?.analyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : tracker.isPinned ? Items.pinned.rawValue : Items.unpinned.rawValue])
                 },
                 UIAction(title: NSLocalizedString("editTracker", comment: "editTracker")) { [weak self] _ in
                     guard self != nil else { return }
                     self?.editingTrackers(indexPath: indexPath)
-                    AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.edit.rawValue])
+                    self?.analyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.edit.rawValue])
                 },
                 UIAction(title: NSLocalizedString("deleteTracker", comment: "deleteTracker"), image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .destructive) {[weak self] _ in
                     guard self != nil else { return }
                     self?.showDeleteAlert(indexPath: indexPath)
-                    AnalyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.delete.rawValue])
+                    self?.analyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEvent", "Item" : Items.delete.rawValue])
                 }
             ])
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
@@ -519,7 +520,7 @@ extension TrackersViewController: TrackerCellDelegate {
             if !completedTrackers.contains(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }) {
                 try? createRecord(record: record)
             }
-            AnalyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.trackerCompleted.rawValue])
+            analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.trackerCompleted.rawValue])
             collectionView.reloadData()
         }
     }
@@ -529,7 +530,7 @@ extension TrackersViewController: TrackerCellDelegate {
             try? deleteRecord(atIndex: index)
         }
         try? fetchRecord()
-        AnalyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.trackerNotCompleted.rawValue])
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.trackerNotCompleted.rawValue])
         collectionView.reloadData()
     }
 }

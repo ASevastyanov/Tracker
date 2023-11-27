@@ -14,6 +14,7 @@ protocol ContentViewControllerDelegate: AnyObject {
 // MARK: - OnboardingViewController
 final class OnboardingViewController: UIPageViewController {
     private let dataStorage = DataStorege.shared
+    private let analyticsService = AnalyticsService()
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .blackDay
@@ -55,7 +56,7 @@ final class OnboardingViewController: UIPageViewController {
         super.viewDidLoad()
         configViews()
         configConstraints()
-        AnalyticsService.report(event: .open, params: ["Screen" : "Onboarding"])
+        analyticsService.report(event: .open, params: ["Screen" : "Onboarding"])
     }
     
     // MARK: Actions

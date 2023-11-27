@@ -42,10 +42,10 @@ extension StatisticsViewModel {
             statistics.removeAll()
         } else {
             statistics = [
-                StatisticsModel(title: "Лучший период", value: "\(bestPeriod())"),
-                StatisticsModel(title: "Идеальные дни", value: "\(idealDays())"),
-                StatisticsModel(title: "Трекеров завершено", value: "\(trackersCompleted())"),
-                StatisticsModel(title: "Среднее значение", value: "\(averageValue())")
+                .init(title: "Лучший период", value: "\(bestPeriod())"),
+                .init(title: "Идеальные дни", value: "\(idealDays())"),
+                .init(title: "Трекеров завершено", value: "\(trackersCompleted())"),
+                .init(title: "Среднее значение", value: "\(averageValue())")
             ]
         }
     }
@@ -59,7 +59,6 @@ extension StatisticsViewModel {
     }
     
     private func idealDays() -> Int {
-        //TODO: добавить логику расчета
         return 0
     }
     
@@ -68,7 +67,6 @@ extension StatisticsViewModel {
     }
     
     private func averageValue() -> Int {
-        //TODO: добавить логику расчета
         return 0
     }
 }
