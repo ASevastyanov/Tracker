@@ -77,7 +77,8 @@ final class StatisticsViewController: UIViewController {
     // MARK: Binding
     private func bind() {
         viewModel?.$completedTrackers.bind(action: { [weak self] _ in
-            self?.screenRenderingLogic()
+            guard let self else { return }
+            self.screenRenderingLogic()
         })
     }
     
