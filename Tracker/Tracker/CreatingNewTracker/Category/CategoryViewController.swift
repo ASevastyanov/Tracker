@@ -94,8 +94,9 @@ final class CategoryViewController: UIViewController {
     
     // MARK: Binding
     private func bind() {
-        viewModel?.$categories.bind(action: { [weak self] _ in
-            self?.checkForAvailableCategories()
+        viewModel?.$categories.bind(action: {[weak self] _ in
+            guard let self else { return }
+            self.checkForAvailableCategories()
         })
     }
     
@@ -103,9 +104,9 @@ final class CategoryViewController: UIViewController {
     @objc
     func actionsForButton() {
         let createCategoryViewController = CreatingCategoryViewController()
-                createCategoryViewController.delegate = self
-                let navigationController = UINavigationController(rootViewController: createCategoryViewController)
-                present(navigationController, animated: true)
+        createCategoryViewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: createCategoryViewController)
+        present(navigationController, animated: true)
     }
     
     // MARK: - Private methods
@@ -113,16 +114,16 @@ final class CategoryViewController: UIViewController {
         tableView.reloadData()
         guard let category = viewModel?.categories else { return }
         if !category.isEmpty {
-            placeholderDisplaySwitch(isHiden: true)
+            placeholderDisplaySwitch(isHidden: true)
             configThereAreCategories()
         } else {
-            placeholderDisplaySwitch(isHiden: false)
+            placeholderDisplaySwitch(isHidden: false)
         }
     }
     
-    private func placeholderDisplaySwitch(isHiden: Bool) {
-        mainStarImageStub.isHidden = isHiden
-        descriptionPlaceholderStub.isHidden = isHiden
+    private func placeholderDisplaySwitch(isHidden: Bool) {
+        mainStarImageStub.isHidden = isHidden
+        descriptionPlaceholderStub.isHidden = isHidden
     }
     
     private func configViews() {
@@ -184,7 +185,7 @@ extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             try? self.viewModel?.removeCategory(atIndex: indexPath.row)
             self.checkForAvailableCategories()
         }

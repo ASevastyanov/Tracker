@@ -10,6 +10,7 @@ import UIKit
 // MARK: - CreatingNewTrackerViewController
 final class CreatingNewTrackerViewController: UIViewController {
     weak var delegate: TrackerCreationDelegate?
+    private let analyticsService = AnalyticsService()
     
     //MARK: - UiElements
     private lazy var creatingTrackerLabel: UILabel = {
@@ -40,6 +41,12 @@ final class CreatingNewTrackerViewController: UIViewController {
         super.viewDidLoad()
         configViews()
         configConstraints()
+        analyticsService.report(event: .open, params: ["Screen" : "CreatingNewTracker"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        analyticsService.report(event: .close, params: ["Screen" : "CreatingNewTracker"])
     }
     
     // MARK: - Actions
@@ -48,6 +55,7 @@ final class CreatingNewTrackerViewController: UIViewController {
         let createHabitViewController = CreatingHabitViewController()
         createHabitViewController.delegate = self.delegate
         let navigationController = UINavigationController(rootViewController: createHabitViewController)
+        analyticsService.report(event: .click, params: ["Screen" : "CreatingHabitViewController"])
         present(navigationController, animated: true)
     }
     
@@ -56,6 +64,7 @@ final class CreatingNewTrackerViewController: UIViewController {
         let createIrregularEventViewController = CreatingIrregularEventViewController()
         createIrregularEventViewController.delegate = self.delegate
         let navigationController = UINavigationController(rootViewController: createIrregularEventViewController)
+        analyticsService.report(event: .click, params: ["Screen" : "CreatingIrregularEventViewController"])
         present(navigationController, animated: true)
     }
     
